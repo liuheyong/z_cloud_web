@@ -6,14 +6,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.web.context.request.RequestContextListener;
-
-import java.util.concurrent.Executor;
-import java.util.concurrent.ThreadPoolExecutor;
 
 @EnableEurekaServer
 @SpringBootApplication
@@ -42,31 +34,6 @@ public class ZCloudWebApplication implements CommandLineRunner {
             logger.error("启动异常", e);
             e.printStackTrace();
         }
-    }
-
-    /**
-     * @date: 2019/5/28
-     * @description: 在主类中定义⼀个线程池
-     */
-    @EnableAsync
-    @Configuration
-    class TaskPoolConfig {
-        @Bean("taskExecutor")
-        public Executor taskExecutor() {
-            ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-            executor.setCorePoolSize(10);
-            executor.setMaxPoolSize(20);
-            executor.setQueueCapacity(200);
-            executor.setKeepAliveSeconds(60);
-            executor.setThreadNamePrefix("taskExecutor-");
-            executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
-            return executor;
-        }
-    }
-
-    @Bean
-    public RequestContextListener requestContextListener() {
-        return new RequestContextListener();
     }
 
 }

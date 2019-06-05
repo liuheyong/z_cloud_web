@@ -5,7 +5,6 @@
     <springProperty scope="scope" name="log.name" source="log.name"/>
     <Property name="log.base" value="${log.base}"/>
     <Property name="log.name" value="${log.name}"/>
-    <contextName>${log.name}</contextName>
     <jmxConfigurator/>
     <!-- 控制台输出日志-->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">

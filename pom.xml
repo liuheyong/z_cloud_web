@@ -3,11 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.5.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>com.cloud.parent</groupId>
+        <artifactId>z_cloud_parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../z_cloud_parent/pom.xml</relativePath>
     </parent>
+
     <groupId>com.cloud.web</groupId>
     <artifactId>z_cloud_web</artifactId>
     <version>1.0.0-SNAPSHOT</version>
@@ -38,18 +39,34 @@
         <dependency>
             <groupId>com.cloud.commons</groupId>
             <artifactId>z_cloud_commons</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <!--google guava-->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>19.0</version>
         </dependency>
-        <!--spring-cloud-starter-eureka-->
+        <!--spring-cloud-eureka-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-eureka-server</artifactId>
+            <version>1.4.4.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
+            <version>1.4.4.RELEASE</version>
+        </dependency>
+        <!--spring-cloud版本-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>Dalston.SR1</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.cloud.commons</groupId>
+            <artifactId>z_cloud_commons</artifactId>
         </dependency>
     </dependencies>
 
