@@ -5,9 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+import org.springframework.context.ApplicationContext;
 
-@EnableEurekaServer
 @SpringBootApplication
 public class ZCloudWebApplication implements CommandLineRunner {
 
@@ -17,7 +16,10 @@ public class ZCloudWebApplication implements CommandLineRunner {
         SpringApplication springApplication = new SpringApplication(ZCloudWebApplication.class);
         //禁止命令行设置环境参数
         springApplication.setAddCommandLineProperties(false);
-        springApplication.run(args);
+        ApplicationContext context = springApplication.run(args);
+        //赋值ApplicationContext,以便随时手动获取bean
+        SpringBeanUtil.setApplicationContext(context);
+        logger.info("==========获取到ApplicationContext==========" + SpringBeanUtil.getApplicationContext());
     }
 
     /**
@@ -29,7 +31,7 @@ public class ZCloudWebApplication implements CommandLineRunner {
     @Override
     public void run(String... strings) {
         try {
-            logger.info("============随cloud启动而执行============");
+            logger.info("==========随cloud启动而执行==========");
         } catch (Exception e) {
             logger.error("启动异常", e);
             e.printStackTrace();

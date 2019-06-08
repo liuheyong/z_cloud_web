@@ -5,12 +5,13 @@
     <springProperty scope="scope" name="log.name" source="log.name"/>
     <Property name="log.base" value="${log.base}"/>
     <Property name="log.name" value="${log.name}"/>
+    <contextName>${log.name}</contextName>
     <jmxConfigurator/>
     <!-- 控制台输出日志-->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <charset>UTF-8</charset>
-            <pattern>[z_cloud_web] %-5level %d{yyyy-MM-dd HH:mm:ss} [%thread] %logger - %msg%n</pattern>
+            <pattern>[${log.name}] %-5level %d{yyyy-MM-dd HH:mm:ss} [%thread] %logger - %msg%n</pattern>
         </encoder>
     </appender>
     <!-- 文件输出日志 (文件大小策略进行文件输出，超过指定大小对文件备份) -->
@@ -18,7 +19,7 @@
         <File>${log.base}/${log.name}.log</File>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <charset>UTF-8</charset>
-            <Pattern>[z_cloud_web] %-5level %d{yyyy-MM-dd HH:mm:ss} [%thread] %logger - %msg%n</Pattern>
+            <Pattern>[${log.name}] %-5level %d{yyyy-MM-dd HH:mm:ss} [%thread] %logger - %msg%n</Pattern>
         </encoder>
     </appender>
 
