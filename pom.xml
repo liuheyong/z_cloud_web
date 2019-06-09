@@ -14,7 +14,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>z_cloud_web</name>
-    <description>project for Spring Boot</description>
+    <description>project for Spring Cloud</description>
 
     <dependencies>
         <dependency>
@@ -31,10 +31,22 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!--引⼊actuator健康检查-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
         <!--z_cloud_commons-->
         <dependency>
             <groupId>com.cloud.commons</groupId>
             <artifactId>z_cloud_commons</artifactId>
+            <version>${z_cloud_commons-version}</version>
+        </dependency>
+        <!--引⼊dubbo依赖-->
+        <dependency>
+            <groupId>com.alibaba.boot</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+            <version>${dubbo.starter.version}</version>
         </dependency>
     </dependencies>
 

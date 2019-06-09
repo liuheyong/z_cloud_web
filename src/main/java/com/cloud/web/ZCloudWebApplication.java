@@ -1,5 +1,6 @@
 package com.cloud.web;
 
+import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -7,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
+@EnableDubbo
 @SpringBootApplication
 public class ZCloudWebApplication implements CommandLineRunner {
 
