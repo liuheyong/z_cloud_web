@@ -8,8 +8,9 @@ import com.cloud.commons.response.Result;
 import com.cloud.commons.service.ECooperateMerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +23,7 @@ import java.util.concurrent.Executors;
  * @create: 2019-05-22
  * @description: ECooperateMerController
  **/
-@RestController
+@Controller
 public class ECooperateMerController extends DefaultController {
 
     public static final Logger logger = LoggerFactory.getLogger(ECooperateMerController.class);
@@ -36,6 +37,7 @@ public class ECooperateMerController extends DefaultController {
      * @return: Result
      * @description: 详情
      */
+    @ResponseBody
     @RequestMapping(value = Constants.CLOUD + "/queryECooperateMerInfo")
     public Result queryECooperateMerInfo(ECooperateMer eCooperateMer) {
         Result result = new Result();
@@ -43,11 +45,10 @@ public class ECooperateMerController extends DefaultController {
         try {
             Optional<ECooperateMer> optDto = Optional.ofNullable(eCooperateMerService.queryECooperateMerInfo(eCooperateMer));
             if (optDto.isPresent()) {
-                throw new Exception("sdf");
-                // model.put("eCooperateMer", optDto.get());
-                // result.setResultData(model);
-                // result.setResultCode(Constants.RESULT_SUCCESS);
-                // return result;
+                model.put("eCooperateMer", optDto.get());
+                result.setResultData(model);
+                result.setResultCode(Constants.RESULT_SUCCESS);
+                return result;
             } else {
                 throw new Exception("该eCooperateMer不存在");
             }
@@ -65,6 +66,7 @@ public class ECooperateMerController extends DefaultController {
      * @return: com.boot.commons.response.Result
      * @description: 创建线程查询列表
      */
+    @ResponseBody
     @RequestMapping(value = Constants.CLOUD + "/queryECooperateMerListPage")
     public Result queryECooperateMerListPage(ECooperateMer eCooperateMer) {
         Result result = new Result();
@@ -98,6 +100,11 @@ public class ECooperateMerController extends DefaultController {
         }
         return result;
 
+    }
+
+    @RequestMapping("/testError")
+    public String testError() throws Exception {
+        throw new Exception("occur error");
     }
 
 }
