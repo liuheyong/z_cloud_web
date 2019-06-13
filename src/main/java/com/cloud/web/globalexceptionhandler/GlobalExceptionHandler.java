@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
     /**
      * @date: 2019/5/31
      * @param: [request, e]
-     * @return: org.springframework.web.servlet.ModelAndView
+     * @return: org.springframework.service.servlet.ModelAndView
      * @description: exceptionErrorHandler
      */
     @ExceptionHandler(value = Exception.class)
