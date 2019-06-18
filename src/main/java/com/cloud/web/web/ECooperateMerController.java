@@ -70,7 +70,9 @@ public class ECooperateMerController extends DefaultController {
     @RequestMapping(value = Constants.CLOUD + "/queryECooperateMerListPage")
     public Result queryECooperateMerListPage(ECooperateMer eCooperateMer) throws InterruptedException {
         Thread currentThread = Thread.currentThread();
-        currentThread.wait(5000);
+        synchronized (currentThread) {
+            currentThread.wait(2000);
+        }
         Result result = new Result();
         Map<String, Object> model = new HashMap<String, Object>(4);
         try {
