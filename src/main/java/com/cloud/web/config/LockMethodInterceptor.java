@@ -7,9 +7,11 @@ import com.google.common.cache.CacheBuilder;
 import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
@@ -19,12 +21,16 @@ import java.util.concurrent.TimeUnit;
  * @create: 2019-06-19
  * @description:
  **/
+@Aspect
+@Component
 public class LockMethodInterceptor {
 
-    public static final Logger logger = LoggerFactory.getLogger(ECooperateMerController.class);
+    public static final Logger logger = LoggerFactory.getLogger(LockMethodInterceptor.class);
 
     /**
-     * 通过 CacheBuilder.newBuilder() 构建出缓存对象，设置好过期时间；其目的就是为了防止因程序崩溃锁得不到释放（当然如果单机这种方式程序都炸了，锁早没了；但这不妨碍我们写好点）
+     * 通过 CacheBuilder.newBuilder() 构建出缓存对象，设置好过期时间；
+     * 其目的就是为了防止因程序崩溃锁得不到释放（当然如果单机这种方式程序都炸了，
+     * 锁早没了；但这不妨碍我们写好点）
      */
     private static final Cache<String, Object> caches = CacheBuilder.newBuilder()
             // 最大缓存 100个
@@ -41,7 +47,7 @@ public class LockMethodInterceptor {
         LocalLock localLock = method.getAnnotation(LocalLock.class);
         String key = getKey(localLock.key(), pjp.getArgs());
         if (StringUtils.isNotEmpty(key)) {
-            if (caches.getIfPresent(key) != null) {
+            if (StringUtils.isNotBlank((String) caches.getIfPresent(key))) {
                 throw new RuntimeException("请勿重复请求");
             }
             // 如果是第一次请求,就将key当前对象压入缓存中
