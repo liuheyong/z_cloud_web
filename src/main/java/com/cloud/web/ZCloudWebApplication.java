@@ -22,8 +22,18 @@ public class ZCloudWebApplication implements CommandLineRunner {
         //赋值ApplicationContext,以便随时手动获取bean
         SpringBeanUtil.setApplicationContext(context);
         logger.info("==========获取到ApplicationContext==========" + SpringBeanUtil.getApplicationContext());
-        keepRunning();
+        //keepRunning();
     }
+
+    /*@Bean
+    public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+        return args -> {
+            logger.info("==========SpringBoot默认为我们提供的Bean==========");
+            String[] beanNames = ctx.getBeanDefinitionNames();
+            Arrays.sort(beanNames);
+            Arrays.stream(beanNames).forEach(System.out::println);
+        };
+    }*/
 
     /**
      * @date: 2019/6/18
