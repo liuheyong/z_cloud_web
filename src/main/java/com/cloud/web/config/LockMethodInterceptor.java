@@ -62,6 +62,9 @@ public class LockMethodInterceptor {
         }
     }
 
+    /** 
+    * @Description: key 的生成策略,如果想灵活可以写成接口与实现类的方式
+    */
     private String getKey(String keyExpress, Object[] args) {
         for (int i = 0; i < args.length; i++) {
             keyExpress = keyExpress.replace("arg[" + i + "]", args[i].toString());
