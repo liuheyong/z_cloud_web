@@ -1,12 +1,15 @@
 package com.cloud.web;
 
 import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
+import com.cloud.web.service.CacheKeyGenerator;
+import com.cloud.web.service.impl.LockKeyGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 
 @EnableDubbo
 @SpringBootApplication
@@ -23,6 +26,11 @@ public class ZCloudWebApplication implements CommandLineRunner {
         SpringBeanUtil.setApplicationContext(context);
         logger.info("==========获取到ApplicationContext==========" + SpringBeanUtil.getApplicationContext());
         //keepRunning();
+    }
+
+    @Bean
+    public CacheKeyGenerator cacheKeyGenerator() {
+        return new LockKeyGenerator();
     }
 
     /*@Bean

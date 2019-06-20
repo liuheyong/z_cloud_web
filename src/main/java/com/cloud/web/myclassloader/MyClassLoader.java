@@ -1,5 +1,8 @@
 package com.cloud.web.myclassloader;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,6 +17,8 @@ import java.nio.channels.WritableByteChannel;
  * @description: 自定义类加载器加载指定资源
  **/
 public class MyClassLoader extends ClassLoader {
+
+    public static final Logger logger = LoggerFactory.getLogger(MyClassLoader.class);
 
     private String classpath;
 
@@ -33,12 +38,9 @@ public class MyClassLoader extends ClassLoader {
         //利用自身的加载器加载类
         Class retClass = defineClass(null, classByte, 0, classByte.length);
         if (retClass != null) {
-            System.out.println("由我加载");
+            logger.info("==========自定义加载资源==========");
             return retClass;
         }
-        //System.out.println("非我加载");
-        //在classPath中找不到类文件，委托给父加载器加载,父类会返回null，因为可加载的话在
-        //委派的过程中就已经被加载了
         return super.findClass(name);
     }
 
@@ -66,7 +68,7 @@ public class MyClassLoader extends ClassLoader {
                 buffer.clear();
             }
         } catch (IOException e) {
-            System.out.println("can't read!");
+            logger.info("can't read!");
             throw e;
         }
         fileInput.close();
