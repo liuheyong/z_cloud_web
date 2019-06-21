@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  */
 @Configuration
 @AutoConfigureAfter(RedisAutoConfiguration.class)
-public class RedisLockHelper {
+public class RedisLockHelperUtil {
 
     private static final String DELIMITER = "|";
 
@@ -30,7 +30,7 @@ public class RedisLockHelper {
 
     private final StringRedisTemplate stringRedisTemplate;
 
-    public RedisLockHelper(StringRedisTemplate stringRedisTemplate) {
+    public RedisLockHelperUtil(StringRedisTemplate stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;
     }
 

@@ -2,7 +2,7 @@ package com.cloud.web.config;
 
 import com.cloud.web.myannotation.CacheLock;
 import com.cloud.web.service.CacheKeyGenerator;
-import com.cloud.web.utils.RedisLockHelper;
+import com.cloud.web.utils.RedisLockHelperUtil;
 import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -28,12 +28,12 @@ public class LockMethodClusterInterceptor {
     public static final Logger logger = LoggerFactory.getLogger(LockMethodClusterInterceptor.class);
 
     @Autowired
-    public LockMethodClusterInterceptor(RedisLockHelper redisLockHelper, CacheKeyGenerator cacheKeyGenerator) {
+    public LockMethodClusterInterceptor(RedisLockHelperUtil redisLockHelper, CacheKeyGenerator cacheKeyGenerator) {
         this.redisLockHelper = redisLockHelper;
         this.cacheKeyGenerator = cacheKeyGenerator;
     }
 
-    private final RedisLockHelper redisLockHelper;
+    private final RedisLockHelperUtil redisLockHelper;
     private final CacheKeyGenerator cacheKeyGenerator;
 
     @Around("execution(public * *(..)) && @annotation(com.cloud.web.myannotation.CacheLock)")
