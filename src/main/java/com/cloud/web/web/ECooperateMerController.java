@@ -63,7 +63,7 @@ public class ECooperateMerController extends DefaultController {
     /**
      * @date: 2019/5/27
      * @param: [eCooperateMer]
-     * @return: com.boot.commons.response.Result
+     * @return: com.boot.com.alibabacloud.commons.response.Result
      * @description: 创建线程查询列表
      */
     @ResponseBody
