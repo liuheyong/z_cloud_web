@@ -1,4 +1,4 @@
-﻿package com.cloud.web.JDKdynamicproxy;
+﻿package com.cloud.web.jdkdynamicproxy;
 
 
 import com.cloud.commons.dto.Student;
