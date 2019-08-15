@@ -1,5 +1,7 @@
 package com.cloud.web.test;
 
+import java.lang.reflect.Method;
+
 /**
  * @author: HeYongLiu
  * @create: 07-17-2019
@@ -25,8 +27,13 @@ public class TestMain {
     }
 
     public static void main(String[] args) {
-
-        System.out.println("NONE".hashCode());
+        Method method = null;
+        if (Object.class.equals(TestMain.class)) {
+            try {
+                System.out.println("1");
+            } catch (Throwable t) {
+            }
+        }
 
         /*TestMain test = new TestMain();
         test.stackLeakByThread();*/

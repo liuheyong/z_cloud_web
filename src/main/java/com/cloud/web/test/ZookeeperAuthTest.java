@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * @author: liuheyong
  * @create: 2019-08-08
- * @description:
+ * @description: zookeeper登录权限认证
  */
 public class ZookeeperAuthTest {
 
