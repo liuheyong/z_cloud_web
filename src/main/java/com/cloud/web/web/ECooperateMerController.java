@@ -8,11 +8,17 @@ import com.cloud.commons.response.Result;
 import com.cloud.commons.service.ECooperateMerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -28,6 +34,9 @@ public class ECooperateMerController extends DefaultController {
 
     @Reference(check = false, version = "1.0.0", timeout = 60000)
     private ECooperateMerService eCooperateMerService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * @date: 2019/5/24
@@ -107,6 +116,15 @@ public class ECooperateMerController extends DefaultController {
     @RequestMapping("/testError")
     public String testError() throws Exception {
         throw new Exception("occur error");
+    }
+
+    @RequestMapping("/testRedis")
+    @ResponseBody
+    public String testRedis() {
+        //redis 设置key
+        RedisSerializer redisSerializer = new StringRedisSerializer();
+        redisTemplate.setKeySerializer(redisSerializer);
+        return (String) redisTemplate.opsForValue().get("test");
     }
 
 }

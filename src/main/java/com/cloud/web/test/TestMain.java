@@ -26,8 +26,10 @@ public class TestMain {
 
     public static void main(String[] args) {
 
-        TestMain test = new TestMain();
-        test.stackLeakByThread();
+        System.out.println("NONE".hashCode());
+
+        /*TestMain test = new TestMain();
+        test.stackLeakByThread();*/
 
         /*ArrayList<TestMain> arrayList = new ArrayList<TestMain>();
         while (true) {
