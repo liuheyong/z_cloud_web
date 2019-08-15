@@ -10,8 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -122,8 +120,8 @@ public class ECooperateMerController extends DefaultController {
     @ResponseBody
     public String testRedis() {
         //redis 设置key
-        RedisSerializer redisSerializer = new StringRedisSerializer();
-        redisTemplate.setKeySerializer(redisSerializer);
+        //RedisSerializer redisSerializer = new StringRedisSerializer();
+        //redisTemplate.setKeySerializer(redisSerializer);
         return (String) redisTemplate.opsForValue().get("test");
     }
 
