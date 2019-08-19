@@ -113,7 +113,7 @@ public class ECooperateMerController extends DefaultController {
 
     @RequestMapping("/testError")
     public String testError() throws Exception {
-        throw new Exception("occur error");
+        return "hello";
     }
 
     @RequestMapping("/testRedis")
