@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
@@ -72,7 +73,7 @@ public class ECooperateMerController extends DefaultController {
      * @description: 创建线程查询列表
      */
     @ResponseBody
-    @RequestMapping(value = Constants.CLOUD + "/queryECooperateMerListPage")
+    @RequestMapping(value = Constants.CLOUD + "/queryECooperateMerListPage", method = {RequestMethod.POST, RequestMethod.GET})
     public Result queryECooperateMerListPage(ECooperateMer eCooperateMer) throws InterruptedException {
 //        Thread currentThread = Thread.currentThread();
 //        synchronized (currentThread) {

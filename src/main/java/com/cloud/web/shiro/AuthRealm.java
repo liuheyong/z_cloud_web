@@ -1,6 +1,6 @@
 //package com.cloud.web.shiro;
 //
-//import com.cloud.commons.dto.User;
+//import com.cloud.commons.serviceSub.User;
 //import org.apache.shiro.SecurityUtils;
 //import org.apache.shiro.authc.*;
 //import org.apache.shiro.authz.AuthorizationInfo;
