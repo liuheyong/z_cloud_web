@@ -9,6 +9,7 @@ import com.cloud.commons.service.ECooperateMerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -67,15 +68,13 @@ public class ECooperateMerController extends DefaultController {
      * @return: com.boot.com.alibabacloud.commons.response.Result
      * @description: 创建线程查询列表
      */
-    @ResponseBody
     @RequestMapping(value = Constants.CLOUD + "/queryECooperateMerListPage", method = {RequestMethod.POST, RequestMethod.GET})
-    public Result queryECooperateMerListPage(ECooperateMer eCooperateMer) throws InterruptedException {
+    public String queryECooperateMerListPage(ECooperateMer eCooperateMer, ModelMap model) throws InterruptedException {
 //        Thread currentThread = Thread.currentThread();
 //        synchronized (currentThread) {
 //            currentThread.wait(2);
 //        }
         Result result = new Result();
-        Map<String, Object> model = new HashMap<String, Object>(4);
         try {
             //创建线程执行任务
             Runnable runnable = new Runnable() {
@@ -103,8 +102,7 @@ public class ECooperateMerController extends DefaultController {
             result.setResultCode(Constants.RESULT_FAIL);
             result.setResultMessage("系统异常");
         }
-        return result;
-
+        return "e_cooperate_mer_list_page";
     }
 
 }
