@@ -95,6 +95,15 @@ public class ECooperateMerController extends DefaultController {
             }
             QueryECooperateMerResponse response = eCooperateMerService.queryECooperateMerListPage(eCooperateMer);
             model.put("eCooperateMerList", response.geteCooperateMerList());
+            //单个对象
+            ECooperateMer mer = new ECooperateMer();
+            mer.setCooperateMerSeq("EC2019042800000023");
+            Optional<ECooperateMer> optDto = Optional.ofNullable(eCooperateMerService.queryECooperateMerInfo(mer));
+            if (optDto.isPresent()) {
+                model.put("eCooperateMer", optDto.get());
+            } else {
+                throw new Exception("该eCooperateMer不存在");
+            }
             result.setResultCode(Constants.RESULT_SUCCESS);
             result.setResultData(model);
         } catch (Exception e) {
