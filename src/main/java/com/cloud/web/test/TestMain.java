@@ -1,7 +1,5 @@
 package com.cloud.web.test;
 
-import java.lang.reflect.Method;
-
 /**
  * @author: HeYongLiu
  * @create: 07-17-2019
@@ -9,31 +7,38 @@ import java.lang.reflect.Method;
  **/
 public class TestMain {
 
-    private void dontStop() {
-        while (true) {
-        }
-    }
-
-    public void stackLeakByThread() {
-        while (true) {
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    dontStop();
-                }
-            });
-            thread.start();
-        }
-    }
 
     public static void main(String[] args) {
-        Method method = null;
-        if (Object.class.equals(TestMain.class)) {
-            try {
-                System.out.println("1");
-            } catch (Throwable t) {
-            }
-        }
+    //List<String> list1 = new ArrayList();
+    //List<String> list2 = null;
+    //    Optional.ofNullable(list1).orElseThrow(()->new RuntimeException("error1"));
+    //    Optional.ofNullable(list2).orElseThrow(()->new RuntimeException("error2"));
+    }
+    //private void dontStop() {
+    //    while (true) {
+    //    }
+    //}
+    //
+    //public void stackLeakByThread() {
+    //    while (true) {
+    //        Thread thread = new Thread(new Runnable() {
+    //            @Override
+    //            public void run() {
+    //                dontStop();
+    //            }
+    //        });
+    //        thread.start();
+    //    }
+    //}
+    //
+    //public static void main(String[] args) {
+    //    Method method = null;
+    //    if (Object.class.equals(TestMain.class)) {
+    //        try {
+    //            System.out.println("1");
+    //        } catch (Throwable t) {
+    //        }
+    //    }
 
         /*TestMain test = new TestMain();
         test.stackLeakByThread();*/
@@ -53,4 +58,4 @@ public class TestMain {
         System.out.println(str2 == str1);*/
     }
 
-}
+
