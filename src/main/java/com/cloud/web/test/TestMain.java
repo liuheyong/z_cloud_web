@@ -9,10 +9,13 @@ public class TestMain {
 
 
     public static void main(String[] args) {
-    //List<String> list1 = new ArrayList();
-    //List<String> list2 = null;
-    //    Optional.ofNullable(list1).orElseThrow(()->new RuntimeException("error1"));
-    //    Optional.ofNullable(list2).orElseThrow(()->new RuntimeException("error2"));
+
+
+
+        //List<String> list1 = new ArrayList();
+        //List<String> list2 = null;
+        //    Optional.ofNullable(list1).orElseThrow(()->new RuntimeException("error1"));
+        //    Optional.ofNullable(list2).orElseThrow(()->new RuntimeException("error2"));
     }
     //private void dontStop() {
     //    while (true) {
@@ -56,6 +59,6 @@ public class TestMain {
         str2.intern();
         System.out.println(str2.equals(str1));
         System.out.println(str2 == str1);*/
-    }
+}
 
 
