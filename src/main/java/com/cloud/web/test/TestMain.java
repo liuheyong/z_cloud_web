@@ -7,11 +7,13 @@ package com.cloud.web.test;
  **/
 public class TestMain {
 
-
     public static void main(String[] args) {
 
-
-
+        //static int[] value = new int[]{1, 2};
+        //static AtomicIntegerArray ai = new AtomicIntegerArray(value);
+        //Lock lock = new ReentrantLock();
+        //ai.getAndSet(0, 3);
+        //System.out.println(ai.get(0));
         //List<String> list1 = new ArrayList();
         //List<String> list2 = null;
         //    Optional.ofNullable(list1).orElseThrow(()->new RuntimeException("error1"));
