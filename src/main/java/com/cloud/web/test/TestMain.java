@@ -1,5 +1,8 @@
 package com.cloud.web.test;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * @author: HeYongLiu
  * @create: 07-17-2019
@@ -9,6 +12,7 @@ public class TestMain {
 
     public static void main(String[] args) {
 
+        Lock lock = new ReentrantLock();
         //static int[] value = new int[]{1, 2};
         //static AtomicIntegerArray ai = new AtomicIntegerArray(value);
         //Lock lock = new ReentrantLock();
