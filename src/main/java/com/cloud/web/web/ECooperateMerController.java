@@ -78,7 +78,7 @@ public class ECooperateMerController extends DefaultController {
      * @description: 创建线程查询列表
      */
     @RequestMapping(value = Constants.CLOUD + "/queryECooperateMerListPage", method = {RequestMethod.POST,
-            RequestMethod.GET})
+                                                                                       RequestMethod.GET})
     public String queryECooperateMerListPage(ECooperateMer eCooperateMer, ModelMap model) throws InterruptedException {
         String sessionID = request.getSession(true).getId();
         request.getSession().setMaxInactiveInterval(1000 * 60 * 30);

@@ -1,8 +1,5 @@
 package com.cloud.web.test;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 /**
  * @author: HeYongLiu
  * @create: 07-17-2019
@@ -12,7 +9,7 @@ public class TestMain {
 
     public static void main(String[] args) {
 
-        Lock lock = new ReentrantLock();
+        //Lock lock = new ReentrantLock();
         //static int[] value = new int[]{1, 2};
         //static AtomicIntegerArray ai = new AtomicIntegerArray(value);
         //Lock lock = new ReentrantLock();
@@ -22,32 +19,32 @@ public class TestMain {
         //List<String> list2 = null;
         //    Optional.ofNullable(list1).orElseThrow(()->new RuntimeException("error1"));
         //    Optional.ofNullable(list2).orElseThrow(()->new RuntimeException("error2"));
-    }
-    //private void dontStop() {
-    //    while (true) {
-    //    }
-    //}
-    //
-    //public void stackLeakByThread() {
-    //    while (true) {
-    //        Thread thread = new Thread(new Runnable() {
-    //            @Override
-    //            public void run() {
-    //                dontStop();
-    //            }
-    //        });
-    //        thread.start();
-    //    }
-    //}
-    //
-    //public static void main(String[] args) {
-    //    Method method = null;
-    //    if (Object.class.equals(TestMain.class)) {
-    //        try {
-    //            System.out.println("1");
-    //        } catch (Throwable t) {
-    //        }
-    //    }
+
+        //private void dontStop() {
+        //    while (true) {
+        //    }
+        //}
+        //
+        //public void stackLeakByThread() {
+        //    while (true) {
+        //        Thread thread = new Thread(new Runnable() {
+        //            @Override
+        //            public void run() {
+        //                dontStop();
+        //            }
+        //        });
+        //        thread.start();
+        //    }
+        //}
+        //
+        //public static void main(String[] args) {
+        //    Method method = null;
+        //    if (Object.class.equals(TestMain.class)) {
+        //        try {
+        //            System.out.println("1");
+        //        } catch (Throwable t) {
+        //        }
+        //    }
 
         /*TestMain test = new TestMain();
         test.stackLeakByThread();*/
@@ -65,6 +62,7 @@ public class TestMain {
         str2.intern();
         System.out.println(str2.equals(str1));
         System.out.println(str2 == str1);*/
+    }
 }
 
 

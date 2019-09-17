@@ -1,4 +1,4 @@
-package com.cloud.web.mul_thread;
+package com.cloud.web.concurrentprogrammer;
 
 import java.util.concurrent.CountDownLatch;
 
