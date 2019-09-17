@@ -37,8 +37,7 @@ public class GoodsController {
 
     @GetMapping(Constants.CLOUD + "update")
     public String update(long id, String name, String description) {
-        GoodsInfo goodsInfo = new GoodsInfo(id,
-                name, description);
+        GoodsInfo goodsInfo = new GoodsInfo(id, name, description);
         goodsRepository.save(goodsInfo);
         return "success";
     }
