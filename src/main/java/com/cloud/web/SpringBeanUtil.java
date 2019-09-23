@@ -52,6 +52,6 @@ public class SpringBeanUtil {
     }
 
     private static void checkApplicationContext() {
-        ApplicationContext optACT = Optional.ofNullable(applicationContext).orElseThrow(() -> new IllegalStateException("applicationContext未注入"));
+        Optional.ofNullable(applicationContext).orElseThrow(() -> new IllegalStateException("applicationContext未注入"));
     }
 }
