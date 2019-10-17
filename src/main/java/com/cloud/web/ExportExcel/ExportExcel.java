@@ -59,7 +59,7 @@ public class ExportExcel {
             CellRangeAddress callRangeAddressinfo2 = new CellRangeAddress(userList.size() + 9, userList.size() + 9, 0
                     , 7);//起始行,结束行,起始列,结束列
 
-            //部项目经理部
+            //项目经理部
             HSSFCellStyle headStyle = createCellStyle(workbook, (short) 10, false, true);
             //派工单
             HSSFCellStyle erStyle = createCellStyle(workbook, (short) 13, true, true);
@@ -139,7 +139,6 @@ public class ExportExcel {
                 cell2.setCellValue(titlefour[i]);
             }
 
-
             //4.操作单元格;将用户列表写入excel
             if (userList != null) {
                 int i = 1;
@@ -218,8 +217,8 @@ public class ExportExcel {
             cellinfo2.setCellValue("3、工日数填写精确到半个工日。");
             //5.输出
             workbook.write(fout);
-//	            workbook.close();
-            //out.close();
+            workbook.close();
+            fout.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
