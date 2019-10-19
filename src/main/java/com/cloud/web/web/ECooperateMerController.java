@@ -6,6 +6,10 @@ import com.cloud.commons.dto.ECooperateMer;
 import com.cloud.commons.response.QueryECooperateMerResponse;
 import com.cloud.commons.response.Result;
 import com.cloud.commons.service.ECooperateMerService;
+import com.cloud.commons.utils.CloudUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +22,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileOutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -78,12 +84,12 @@ public class ECooperateMerController extends DefaultController {
      * @description: 创建线程查询列表
      */
     @RequestMapping(value = Constants.CLOUD + "/queryECooperateMerListPage", method = {RequestMethod.POST,
-                                                                                       RequestMethod.GET})
+            RequestMethod.GET})
     public String queryECooperateMerListPage(ECooperateMer eCooperateMer, ModelMap model) throws InterruptedException {
         String sessionID = request.getSession(true).getId();
         request.getSession().setMaxInactiveInterval(1000 * 60 * 30);
         logger.info("=================sessionID:" + sessionID + "====================");
-        Cookie cookie = new Cookie("cookie1","value1");
+        Cookie cookie = new Cookie("cookie1", "value1");
         response.addCookie(cookie);
         //Thread currentThread = Thread.currentThread();
         //synchronized (currentThread) {
@@ -127,6 +133,106 @@ public class ECooperateMerController extends DefaultController {
             result.setResultMessage("系统异常");
         }
         return "e_cooperate_mer_list_page";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = Constants.CLOUD + "/exportECooperateMerList")
+    public Result exportECooperateMerList(ECooperateMer eCooperateMer) {
+        Result result = new Result();
+        try {
+            QueryECooperateMerResponse response = eCooperateMerService.queryECooperateMerListPage(eCooperateMer);
+            if (response != null && CollectionUtils.isNotEmpty(response.geteCooperateMerList())) {
+                //1.创建工作簿
+                HSSFWorkbook workbook = new HSSFWorkbook();
+                //标题
+                CellRangeAddress callRangeAddress1 = new CellRangeAddress(0, 1, 0, 0);//起始行,结束行,起始列,结束列
+                CellRangeAddress callRangeAddress2 = new CellRangeAddress(0, 1, 1, 1);//起始行,结束行,起始列,结束列
+                CellRangeAddress callRangeAddress3 = new CellRangeAddress(0, 1, 2, 2);//起始行,结束行,起始列,结束列
+                CellRangeAddress callRangeAddress4 = new CellRangeAddress(0, 1, 3, 3);//起始行,结束行,起始列,结束列
+                CellRangeAddress callRangeAddress5 = new CellRangeAddress(0, 1, 4, 4);//起始行,结束行,起始列,结束列
+                CellRangeAddress callRangeAddress6 = new CellRangeAddress(0, 1, 5, 5);//起始行,结束行,起始列,结束列
+                CellRangeAddress callRangeAddress7 = new CellRangeAddress(0, 1, 6, 6);//起始行,结束行,起始列,结束列
+                CellRangeAddress callRangeAddress8 = new CellRangeAddress(0, 1, 7, 7);//起始行,结束行,起始列,结束列
+
+                //标题样式
+                HSSFCellStyle headerStyle = CloudUtils.createCellStyle(workbook, (short) 10, true, true);
+                //内容样式
+                HSSFCellStyle contentStyle = CloudUtils.createCellStyle(workbook, (short) 10, false, true);
+
+                //2.创建工作表
+                HSSFSheet sheet = workbook.createSheet("合作商户列表导出");
+
+                sheet.addMergedRegion(callRangeAddress1);
+                sheet.addMergedRegion(callRangeAddress2);
+                sheet.addMergedRegion(callRangeAddress3);
+                sheet.addMergedRegion(callRangeAddress4);
+                sheet.addMergedRegion(callRangeAddress5);
+                sheet.addMergedRegion(callRangeAddress6);
+                sheet.addMergedRegion(callRangeAddress7);
+                sheet.addMergedRegion(callRangeAddress8);
+                //设置默认列宽
+                sheet.setDefaultColumnWidth(15);
+
+                //3 创建列标题，并且设置列标题
+                HSSFRow row2 = sheet.createRow(0);
+                String[] titles = {"序号", "商户编号", "分销商编号", "商户名称", "图片链接", "商户链接"};//""为占位字符串
+                for (int i = 0; i < titles.length; i++) {
+                    HSSFCell cell2 = row2.createCell(i);
+                    //加载单元格样式
+                    cell2.setCellStyle(headerStyle);
+                    cell2.setCellValue(titles[i]);
+                }
+
+                //4.操作单元格，将列表写入excel
+                List<ECooperateMer> eCooMerList = response.geteCooperateMerList();
+                int i = 1;
+                for (int j = 0; j < eCooMerList.size(); j++) {
+
+                    HSSFRow row3 = sheet.createRow(2 + j);
+
+                    HSSFCell cell0 = row3.createCell(0);
+                    cell0.setCellStyle(contentStyle);
+                    cell0.setCellValue(i++);
+
+                    HSSFCell cell1 = row3.createCell(1);
+                    cell1.setCellStyle(contentStyle);
+                    cell1.setCellValue(eCooMerList.get(j).getCooperateMerSeq());
+
+                    HSSFCell cell2 = row3.createCell(2);
+                    cell2.setCellStyle(contentStyle);
+                    cell2.setCellValue(eCooMerList.get(j).getAgentMerSeq());
+
+                    HSSFCell cell3 = row3.createCell(3);
+                    cell3.setCellStyle(contentStyle);
+                    cell3.setCellValue(eCooMerList.get(j).getMerName());
+
+                    HSSFCell cell4 = row3.createCell(4);
+                    cell4.setCellStyle(contentStyle);
+                    cell4.setCellValue(eCooMerList.get(j).getImageLink());
+
+                    HSSFCell cell5 = row3.createCell(5);
+                    cell5.setCellStyle(contentStyle);
+                    cell5.setCellValue(eCooMerList.get(j).getMerLink());
+
+
+                }
+                FileOutputStream out = new FileOutputStream("/export_excel/合作商户列表.xls");
+                //5.输出
+                workbook.write(out);
+                workbook.close();
+                out.close();
+                result.setResultCode(Constants.RESULT_SUCCESS);
+            } else {
+                logger.debug("导出数据为空！");
+                result.setResultCode(Constants.RESULT_FAIL);
+                result.setResultMessage("导出数据为空！");
+            }
+        } catch (Exception e) {
+            logger.error("系统异常", e);
+            result.setResultCode(Constants.RESULT_FAIL);
+            result.setResultMessage("系统异常");
+        }
+        return result;
     }
 
 }
