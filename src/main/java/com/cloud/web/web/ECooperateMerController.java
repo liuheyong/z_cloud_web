@@ -13,6 +13,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +47,8 @@ public class ECooperateMerController extends DefaultController {
     private HttpServletRequest request;
     @Autowired
     private HttpServletResponse response;
+    @Autowired
+    RedisTemplate redisTemplate;
 
     /**
      * @date: 2019/5/24
@@ -116,6 +119,7 @@ public class ECooperateMerController extends DefaultController {
             }
             QueryECooperateMerResponse response = eCooperateMerService.queryECooperateMerListPage(eCooperateMer);
             model.put("eCooperateMerList", response.geteCooperateMerList());
+            redisTemplate.opsForValue().set("eCooperateMerList", response.geteCooperateMerList());
             //单个对象
             ECooperateMer mer = new ECooperateMer();
             mer.setCooperateMerSeq("EC2019042800000023");
