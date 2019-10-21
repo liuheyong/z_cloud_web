@@ -143,8 +143,9 @@ public class ExportExcel {
             if (userList != null) {
                 int i = 1;
                 for (int j = 0; j < userList.size(); j++) {
-                    //创建数据行,前面有两行,头标题行和列标题行
+                    //创建数据行
                     HSSFRow row3 = sheet.createRow(j + 5);
+
                     HSSFCell cell0 = row3.createCell(0);
                     cell0.setCellStyle(cellStyle);
                     cell0.setCellValue(i++);
