@@ -46,21 +46,22 @@
 
     $(function () {
         $(".export_excel").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/cloud/exportECooperateMerList",
-                dataType: "json",
-                success: function (data) {
-                    if (data.resultCode == "1") {
-
-                    } else {
-                        alert("导出失败");
-                    }
-                },
-                error: function () {
-                    alert("系统异常，请稍候再试！");
-                }
-            });
+            window.location.href="/cloud/exportECooperateMerList";
+            // $.ajax({
+            //     type: "POST",
+            //     url: "/cloud/exportECooperateMerList",
+            //     dataType: "json",
+            //     success: function (data) {
+            //         if (data.resultCode == "1") {
+            //
+            //         } else {
+            //             alert("导出失败");
+            //         }
+            //     },
+            //     error: function () {
+            //         alert("系统异常，请稍候再试！");
+            //     }
+            // });
         })
     })
 

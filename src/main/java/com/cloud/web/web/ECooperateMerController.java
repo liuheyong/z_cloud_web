@@ -23,7 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -141,7 +142,7 @@ public class ECooperateMerController extends DefaultController {
 
     @ResponseBody
     @RequestMapping(value = Constants.CLOUD + "/exportECooperateMerList")
-    public Result exportECooperateMerList(ECooperateMer eCooperateMer) {
+    public Result exportECooperateMerList(ECooperateMer eCooperateMer, HttpServletResponse res) {
         Result result = new Result();
         try {
             QueryECooperateMerResponse response = eCooperateMerService.queryECooperateMerListPage(eCooperateMer);
@@ -220,11 +221,12 @@ public class ECooperateMerController extends DefaultController {
 
 
                 }
-                FileOutputStream out = new FileOutputStream("/export_excel/合作商户列表.xls");
+                //FileOutputStream out = new FileOutputStream("/export_excel/合作商户列表.xlsx");
                 //5.输出
-                workbook.write(out);
-                workbook.close();
-                out.close();
+                //workbook.write(out);
+
+                downloadExcelToBrowser(res, workbook, "合作商户列表.xlsx");
+
                 result.setResultCode(Constants.RESULT_SUCCESS);
             } else {
                 logger.debug("导出数据为空！");
@@ -237,6 +239,32 @@ public class ECooperateMerController extends DefaultController {
             result.setResultMessage("系统异常");
         }
         return result;
+    }
+
+    /**
+     * @Date: 2019-10-22
+     * @Description: 导出Excel浏览器显示下载框
+     */
+    public static void downloadExcelToBrowser(HttpServletResponse response, HSSFWorkbook workbook, String fileName) throws IOException {
+        response.reset();
+        response.setContentType("application/vnd.ms-excel;charset=utf-8");
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String((fileName).getBytes(), "iso-8859-1"));
+        OutputStream out = null;
+        try {
+            out = response.getOutputStream();
+            workbook.write(out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (workbook != null) {
+                workbook.close();
+            }
+            if (out != null) {
+                out.flush();
+                out.close();
+            }
+        }
+
     }
 
 }
