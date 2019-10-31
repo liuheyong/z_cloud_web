@@ -93,7 +93,7 @@ public class ECooperateMerController extends DefaultController {
         String sessionID = request.getSession(true).getId();
         request.getSession().setMaxInactiveInterval(1000 * 60 * 30);
         logger.info("=================sessionID:" + sessionID + "====================");
-        Cookie cookie = new Cookie("cookie1", "value1");
+        Cookie cookie = new Cookie("cookieSess", sessionID);
         response.addCookie(cookie);
         //Thread currentThread = Thread.currentThread();
         //synchronized (currentThread) {
