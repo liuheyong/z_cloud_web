@@ -120,7 +120,7 @@ public class ECooperateMerController extends DefaultController {
             }
             QueryECooperateMerResponse response = eCooperateMerService.queryECooperateMerListPage(eCooperateMer);
             model.put("eCooperateMerList", response.geteCooperateMerList());
-            redisTemplate.opsForValue().set("eCooperateMerList", response.geteCooperateMerList());
+            //redisTemplate.opsForValue().set("eCooperateMerList", response.geteCooperateMerList());
             //单个对象
             ECooperateMer mer = new ECooperateMer();
             mer.setCooperateMerSeq("EC2019042800000023");

@@ -1,6 +1,9 @@
 package com.cloud.web.schedule_task;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.cloud.commons.dto.ECooperateMer;
+import com.cloud.commons.service.ECooperateMerService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
@@ -18,16 +21,25 @@ import java.time.LocalDateTime;
 @Configuration
 public class ScheduleByInterface implements SchedulingConfigurer {
 
+    @Reference(check = false, version = "${dubbo.service.version}", timeout = 60000)
+    private ECooperateMerService eCooperateMerService;
+
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
         taskRegistrar.addTriggerTask(
                 //1.添加任务内容(Runnable)
-                () -> System.out.println("执行定时任务2: " + LocalDateTime.now().toLocalTime()),
+                () -> {
+                    try {
+                        eCooperateMerService.queryECooperateMerListPage(new ECooperateMer());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                },
                 //2.设置执行周期(Trigger)
                 triggerContext -> {
                     //2.1 从数据库获取执行周期
                     //String cron = cronMapper.getCron();
-                    String cron = "0/6000 * * * * ?";
+                    String cron = "0/30 * * * * ?";
                     //2.2 合法性校验.
                     if (StringUtils.isEmpty(cron)) {
                         // Omitted Code ..
