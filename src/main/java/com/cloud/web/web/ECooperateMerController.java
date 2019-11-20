@@ -87,8 +87,7 @@ public class ECooperateMerController extends DefaultController {
      * @return: com.boot.com.alibabacloud.commons.response.Result
      * @description: 创建线程查询列表
      */
-    @RequestMapping(value = Constants.CLOUD + "/queryECooperateMerListPage", method = {RequestMethod.POST,
-            RequestMethod.GET})
+    @RequestMapping(value = Constants.CLOUD + "/queryECooperateMerListPage", method = {RequestMethod.POST, RequestMethod.GET})
     public String queryECooperateMerListPage(ECooperateMer eCooperateMer, ModelMap model) throws InterruptedException {
         //String sessionID = request.getSession(false).getId();
         //request.getSession().setMaxInactiveInterval(1000 * 60 * 30);
@@ -102,34 +101,34 @@ public class ECooperateMerController extends DefaultController {
         Result result = new Result();
         try {
             //创建线程执行任务
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        eCooperateMerService.queryECooperateMerListPage(eCooperateMer);
-                    } catch (Exception e) {
-                        logger.error("系统异常", e);
-                        return;
-                    }
-                }
-            };
+            //Runnable runnable = new Runnable() {
+            //    @Override
+            //    public void run() {
+            //        try {
+            //            eCooperateMerService.queryECooperateMerListPage(eCooperateMer);
+            //        } catch (Exception e) {
+            //            logger.error("系统异常", e);
+            //            return;
+            //        }
+            //    }
+            //};
             //创建线程池
-            ExecutorService executorService = Executors.newFixedThreadPool(25);
-            for (int i = 0; i < Constants.NUMBER_100; i++) {
-                executorService.submit(runnable);
-            }
+            //ExecutorService executorService = Executors.newFixedThreadPool(25);
+            //for (int i = 0; i < Constants.NUMBER_100; i++) {
+            //    executorService.submit(runnable);
+            //}
             QueryECooperateMerResponse response = eCooperateMerService.queryECooperateMerListPage(eCooperateMer);
             model.put("eCooperateMerList", response.geteCooperateMerList());
             //redisTemplate.opsForValue().set("eCooperateMerList", response.geteCooperateMerList());
             //单个对象
-            ECooperateMer mer = new ECooperateMer();
-            mer.setCooperateMerSeq("EC2019042800000023");
-            Optional<ECooperateMer> optDto = Optional.ofNullable(eCooperateMerService.queryECooperateMerInfo(mer));
-            if (optDto.isPresent()) {
-                model.put("eCooperateMer", optDto.get());
-            } else {
-                throw new Exception("该eCooperateMer不存在");
-            }
+            //ECooperateMer mer = new ECooperateMer();
+            //mer.setCooperateMerSeq("EC2019042800000023");
+            //Optional<ECooperateMer> optDto = Optional.ofNullable(eCooperateMerService.queryECooperateMerInfo(mer));
+            //if (optDto.isPresent()) {
+            //    model.put("eCooperateMer", optDto.get());
+            //} else {
+            //    throw new Exception("该eCooperateMer不存在");
+            //}
             result.setResultCode(Constants.RESULT_SUCCESS);
             result.setResultData(model);
         } catch (Exception e) {
