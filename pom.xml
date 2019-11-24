@@ -219,6 +219,11 @@
             <artifactId>poi</artifactId>
             <version>4.0.1</version>
         </dependency>
+        <!-- 配置spring session data redis的依赖 -->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

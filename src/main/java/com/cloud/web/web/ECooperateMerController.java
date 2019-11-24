@@ -16,11 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -29,8 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * @author: LiuHeYong
@@ -50,6 +48,17 @@ public class ECooperateMerController extends DefaultController {
     private HttpServletResponse response;
     @Autowired
     RedisTemplate redisTemplate;
+
+    /**
+     * @Date: 2019-11-24
+     * @Param: []
+     * @return: com.cloud.commons.dto.ECooperateMer
+     * @Description: 前置方法
+     */
+    @ModelAttribute("eCooperateMer")
+    public ECooperateMer getECooperateMer() {
+        return new ECooperateMer("E201902021245", "A201902021245", "测试分销商名称");
+    }
 
     /**
      * @date: 2019/5/24
@@ -87,8 +96,9 @@ public class ECooperateMerController extends DefaultController {
      * @return: com.boot.com.alibabacloud.commons.response.Result
      * @description: 创建线程查询列表
      */
-    @RequestMapping(value = Constants.CLOUD + "/queryECooperateMerListPage", method = {RequestMethod.POST, RequestMethod.GET})
-    public String queryECooperateMerListPage(ECooperateMer eCooperateMer, ModelMap model) throws InterruptedException {
+    @RequestMapping(value = Constants.CLOUD + "/queryECooperateMerListPage", method = {RequestMethod.POST,
+            RequestMethod.GET})
+    public String queryECooperateMerListPage(@ModelAttribute ECooperateMer eCooperateMer, ModelMap model) throws InterruptedException {
         //String sessionID = request.getSession(false).getId();
         //request.getSession().setMaxInactiveInterval(1000 * 60 * 30);
         //logger.info("=================sessionID:" + sessionID + "====================");
@@ -247,7 +257,8 @@ public class ECooperateMerController extends DefaultController {
     public static void downloadExcelToBrowser(HttpServletResponse response, HSSFWorkbook workbook, String fileName) throws IOException {
         response.reset();
         response.setContentType("application/vnd.ms-excel;charset=utf-8");
-        response.setHeader("Content-Disposition", "attachment;filename=" + new String((fileName).getBytes(), "iso-8859-1"));
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String((fileName).getBytes(), "iso" +
+                "-8859-1"));
         OutputStream out = null;
         try {
             out = response.getOutputStream();

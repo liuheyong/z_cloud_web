@@ -12,10 +12,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.session.data.redis.RedisFlushMode;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 @EnableDubbo
 @SpringBootApplication
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds= 60, redisFlushMode = RedisFlushMode.ON_SAVE, redisNamespace = "z_cloud_web")
 public class ZCloudWebApplication implements CommandLineRunner {
 
     public static final Logger logger = LoggerFactory.getLogger(ZCloudWebApplication.class);
