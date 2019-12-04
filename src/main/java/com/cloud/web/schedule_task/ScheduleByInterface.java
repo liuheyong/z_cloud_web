@@ -17,12 +17,12 @@ import java.time.LocalDateTime;
  * @create: 2019-11-16
  * @description:
  */
-@EnableScheduling
-@Configuration
+//@EnableScheduling
+//@Configuration
 public class ScheduleByInterface implements SchedulingConfigurer {
 
-    @Reference(check = false, version = "${dubbo.service.version}", timeout = 60000)
-    private ECooperateMerService eCooperateMerService;
+    //@Reference(check = false, version = "${dubbo.service.version}", timeout = 60000)
+    //private ECooperateMerService eCooperateMerService;
 
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {

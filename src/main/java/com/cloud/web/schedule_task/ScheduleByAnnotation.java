@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
  * @create: 2019-11-16
  * @description:
  */
-@Configuration
-@EnableScheduling
+//@Configuration
+//@EnableScheduling
 public class ScheduleByAnnotation {
 
     //@Scheduled(cron = "0/5 * * * * ?")

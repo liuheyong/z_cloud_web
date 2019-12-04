@@ -108,6 +108,9 @@ public class ECooperateMerController extends DefaultController {
         //synchronized (currentThread) {
         //    currentThread.wait(2);
         //}
+
+        redisTemplate.opsForValue().set("key1","value1");
+        String redisValue = (String) redisTemplate.opsForValue().get("key1");
         Result result = new Result();
         try {
             //创建线程执行任务
@@ -257,8 +260,7 @@ public class ECooperateMerController extends DefaultController {
     public static void downloadExcelToBrowser(HttpServletResponse response, HSSFWorkbook workbook, String fileName) throws IOException {
         response.reset();
         response.setContentType("application/vnd.ms-excel;charset=utf-8");
-        response.setHeader("Content-Disposition", "attachment;filename=" + new String((fileName).getBytes(), "iso" +
-                "-8859-1"));
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String((fileName).getBytes(), "iso-8859-1"));
         OutputStream out = null;
         try {
             out = response.getOutputStream();
