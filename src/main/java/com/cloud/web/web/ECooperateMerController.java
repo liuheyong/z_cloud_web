@@ -57,6 +57,7 @@ public class ECooperateMerController extends DefaultController {
      */
     @ModelAttribute("eCooperateMer")
     public ECooperateMer getECooperateMer() {
+        System.out.println("前置方法 @ModelAttribute");
         return new ECooperateMer("E201902021245", "A201902021245", "测试分销商名称");
     }
 
@@ -72,8 +73,7 @@ public class ECooperateMerController extends DefaultController {
         Result result = new Result();
         Map<String, Object> model = new HashMap<String, Object>(4);
         try {
-            Optional<ECooperateMer> optDto =
-                    Optional.ofNullable(eCooperateMerService.queryECooperateMerInfo(eCooperateMer));
+            Optional<ECooperateMer> optDto = Optional.ofNullable(eCooperateMerService.queryECooperateMerInfo(eCooperateMer));
             if (optDto.isPresent()) {
                 model.put("eCooperateMer", optDto.get());
                 result.setResultData(model);
@@ -96,8 +96,7 @@ public class ECooperateMerController extends DefaultController {
      * @return: com.boot.com.alibabacloud.commons.response.Result
      * @description: 创建线程查询列表
      */
-    @RequestMapping(value = Constants.CLOUD + "/queryECooperateMerListPage", method = {RequestMethod.POST,
-            RequestMethod.GET})
+    @RequestMapping(value = Constants.CLOUD + "/queryECooperateMerListPage", method = {RequestMethod.POST, RequestMethod.GET})
     public String queryECooperateMerListPage(@ModelAttribute ECooperateMer eCooperateMer, ModelMap model) throws InterruptedException {
         //String sessionID = request.getSession(false).getId();
         //request.getSession().setMaxInactiveInterval(1000 * 60 * 30);
@@ -108,9 +107,6 @@ public class ECooperateMerController extends DefaultController {
         //synchronized (currentThread) {
         //    currentThread.wait(2);
         //}
-
-        redisTemplate.opsForValue().set("key1","value1");
-        String redisValue = (String) redisTemplate.opsForValue().get("key1");
         Result result = new Result();
         try {
             //创建线程执行任务
