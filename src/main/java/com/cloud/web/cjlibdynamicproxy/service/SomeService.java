@@ -4,6 +4,6 @@ public class SomeService {
 
     public String doSome() {
         System.out.println("执行了无接口的目标方法doSome");
-        return "abcd";
+        return "method do something";
     }
 }

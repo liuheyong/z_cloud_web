@@ -21,10 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,7 +74,8 @@ public class ECooperateMerController extends DefaultController {
         Result result = new Result();
         Map<String, Object> model = new HashMap<String, Object>(4);
         try {
-            Optional<ECooperateMer> optDto = Optional.ofNullable(eCooperateMerService.queryECooperateMerInfo(eCooperateMer));
+            Optional<ECooperateMer> optDto =
+                    Optional.ofNullable(eCooperateMerService.queryECooperateMerInfo(eCooperateMer));
             if (optDto.isPresent()) {
                 model.put("eCooperateMer", optDto.get());
                 result.setResultData(model);
@@ -96,7 +98,8 @@ public class ECooperateMerController extends DefaultController {
      * @return: com.boot.com.alibabacloud.commons.response.Result
      * @description: 创建线程查询列表
      */
-    @RequestMapping(value = Constants.CLOUD + "/queryECooperateMerListPage", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = Constants.CLOUD + "/queryECooperateMerListPage", method = {RequestMethod.POST,
+            RequestMethod.GET})
     public String queryECooperateMerListPage(@ModelAttribute ECooperateMer eCooperateMer, ModelMap model) throws InterruptedException {
         //String sessionID = request.getSession(false).getId();
         //request.getSession().setMaxInactiveInterval(1000 * 60 * 30);
@@ -270,6 +273,80 @@ public class ECooperateMerController extends DefaultController {
             if (out != null) {
                 out.flush();
                 out.close();
+            }
+        }
+
+    }
+
+    /**
+     * @Date: 2019-12-28
+     * @Param: [request, response]
+     * @Description: 输出txt到浏览器 文件较小
+     */
+    @ResponseBody
+    @RequestMapping(value = Constants.CLOUD + "/exportStringToTxt01")
+    public void exportStringToTxt01(HttpServletResponse response) throws UnsupportedEncodingException {
+        String fileName = "测试txt01";
+        response.setContentType("text/plain");
+        response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+        StringBuffer sb = new StringBuffer();
+        BufferedOutputStream buff = null;
+        //可以定义换行
+        //String enter = "\r\n";
+        ServletOutputStream outSTr = null;
+        try {
+            outSTr = response.getOutputStream();
+            buff = new BufferedOutputStream(outSTr);
+            // write.append(enter);
+            sb.append("MifSx7ImNvZGUiOiJQUyIsImZhbGxiYWNrRGF0ZSI6IjIwMTktMTItMTQiLCJwYWlVXbyI" +
+                    "6IjIwMjAtMTItMTMifSx7ImNvZGUiOiJHTyIsImZhbGxiYWNrRGF0ZSI6IjIwMTktMTItMTQL" +
+                    "CJwYWlkVXBUbyI6IjIwMjAtMTItMTMifSx7ImNvZGUiOiJETSIsImZhbGxiYWNrRGF0ZSI6IjI" +
+                    "FpZFVwVG8iOiIyMDIwLTEyLTEzIn0seyJjb2RlIjoiREMiLCJmYWxsYmFja0RhdGUiOiIyME5LE" +
+                    "FpZFVwVG8iOiIyMDIwLTEyLTEzIn0seyJjb2RlIjoiUlNVIiwiZmFsbGJhY2tEYXRlIjoiMjAxS0x");
+            buff.write(sb.toString().getBytes("UTF-8"));
+            buff.flush();
+            buff.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                buff.close();
+                outSTr.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = Constants.CLOUD + "/exportStringToTxt")
+    public void exportStringToTxt(HttpServletResponse response, String in) throws UnsupportedEncodingException {
+        String fileName = "测试txt01";
+        response.setContentType("text/plain");
+        response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+        BufferedInputStream bis = null;
+        BufferedOutputStream buff = null;
+        try {
+            buff = new BufferedOutputStream(response.getOutputStream());
+            buff.write(in.getBytes("UTF-8"));
+            buff.flush();
+            buff.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (bis != null) {
+                try {
+                    bis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (buff != null) {
+                try {
+                    buff.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
 

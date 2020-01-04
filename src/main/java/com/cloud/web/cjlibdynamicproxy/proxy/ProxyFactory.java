@@ -1,6 +1,7 @@
 package com.cloud.web.cjlibdynamicproxy.proxy;
 
 import com.cloud.web.cjlibdynamicproxy.service.SomeService;
+import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.Enhancer;
 
 public class ProxyFactory {
@@ -12,6 +13,8 @@ public class ProxyFactory {
         //2.指定目标类--子类是代理类
         en.setSuperclass(SomeService.class);
         //3.指定功能增强的方法拦截器对象
+        //Callback[] callbacks = {new MyMethodInterceptor(target),new MyMethodInterceptor2(target)};
+        //en.setCallbacks(callbacks);
         en.setCallback(new MyMethodInterceptor(target));
         //4.创建代理对象
         return en.create();

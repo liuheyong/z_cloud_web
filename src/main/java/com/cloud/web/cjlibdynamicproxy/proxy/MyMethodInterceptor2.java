@@ -8,15 +8,15 @@ import java.lang.reflect.Method;
 /**
  * 实现对目标方法功能增强
  */
-public class MyMethodInterceptor implements MethodInterceptor {
+public class MyMethodInterceptor2 implements MethodInterceptor {
 
     private Object target = null;
 
-    public MyMethodInterceptor() {
+    public MyMethodInterceptor2() {
         super();
     }
 
-    public MyMethodInterceptor(Object target) {
+    public MyMethodInterceptor2(Object target) {
         super();
         this.target = target;
     }
@@ -33,14 +33,14 @@ public class MyMethodInterceptor implements MethodInterceptor {
      */
     @Override
     public Object intercept(Object proxyObj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        System.out.println("============进入method intercept1==============");
+        System.out.println("============进入method intercept2==============");
         Object result;
         //调用目标方法， 对返回值做修改， 实现小写转大写
         result = method.invoke(target, args);
         //改大写
         if (result != null) {
             String str = (String) result; // final
-            result = str.toUpperCase();
+            result = str.substring(1);
         }
         //目标方法的执行结果
         return result;
