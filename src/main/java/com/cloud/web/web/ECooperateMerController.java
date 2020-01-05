@@ -7,6 +7,7 @@ import com.cloud.commons.response.QueryECooperateMerResponse;
 import com.cloud.commons.response.Result;
 import com.cloud.commons.service.ECooperateMerService;
 import com.cloud.commons.utils.CloudUtils;
+import com.cloud.web.myannotation.AopTest;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -58,7 +59,7 @@ public class ECooperateMerController extends DefaultController {
      */
     @ModelAttribute("eCooperateMer")
     public ECooperateMer getECooperateMer() {
-        System.out.println("前置方法 @ModelAttribute");
+        logger.info("前置方法 ================= @ModelAttribute");
         return new ECooperateMer("E201902021245", "A201902021245", "测试分销商名称");
     }
 
@@ -98,6 +99,7 @@ public class ECooperateMerController extends DefaultController {
      * @return: com.boot.com.alibabacloud.commons.response.Result
      * @description: 创建线程查询列表
      */
+    @AopTest
     @RequestMapping(value = Constants.CLOUD + "/queryECooperateMerListPage", method = {RequestMethod.POST,
             RequestMethod.GET})
     public String queryECooperateMerListPage(@ModelAttribute ECooperateMer eCooperateMer, ModelMap model) throws InterruptedException {

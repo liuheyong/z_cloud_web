@@ -21,13 +21,14 @@ public class AopTestInterceptor {
 
     @Before("execution(public * *(..)) && @annotation(com.cloud.web.myannotation.AopTest)")
     public void interceptor(JoinPoint jp) {
-        logger.info("方法签名：" + jp.getSignature());
-        Signature signature = jp.getSignature();
-        Class<Signature> clazz = (Class<Signature>) signature.getClass();
-        logger.info(clazz.getSimpleName());
-        logger.info(clazz.getName());
-        logger.info(String.valueOf(clazz.getDeclaredFields()));
-        logger.info(String.valueOf(clazz.getAnnotations()));
+        //logger.info("方法签名：" + jp.getSignature());
+        //Signature signature = jp.getSignature();
+        //Class<Signature> clazz = (Class<Signature>) signature.getClass();
+        //logger.info(clazz.getSimpleName());
+        //logger.info(clazz.getName());
+        //logger.info(String.valueOf(clazz.getDeclaredFields()));
+        //logger.info(String.valueOf(clazz.getAnnotations()));
+        logger.info("进入到前置aop拦截==================");
     }
 
 }
