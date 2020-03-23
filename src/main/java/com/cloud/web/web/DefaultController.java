@@ -28,4 +28,12 @@ public class DefaultController implements Cloneable, Serializable {
         return split2[0];
     }
 
+    public static Boolean checkFileTypeExcel(String fileName) {
+        /** 检查文件名是否为空或者是否是Excel格式的文件 */
+        if (!fileName.matches("^.+\\.(?i)((xls)|(xlsx))$")) {
+            return false;
+        }
+        return true;
+    }
+
 }
