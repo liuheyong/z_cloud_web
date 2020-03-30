@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * @author: LiuHeYong
  * @create: 2020-03-23
- * @description:
+ * @description: 分而治之篇
  */
 public class SortAlgorithm {
 
