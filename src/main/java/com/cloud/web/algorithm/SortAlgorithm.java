@@ -280,7 +280,7 @@ public class SortAlgorithm {
     private static void getSumOfSubArray04(int array[]) {
         int n = array.length;
         int nEnd = array[0]; //前i个元素的最大子数组之和
-        int nAll = array[0];//包含组后一个元素的子数组之和(前i+1个元素的最大子数组之和)
+        int nAll = array[0];//包含最后一个元素的子数组之和(前i+1个元素的最大子数组之和)
         for (int i = 1; i < n ; i++) {
             nEnd = max(nEnd + array[i], array[i]);
             nAll = max(nEnd, nAll);
