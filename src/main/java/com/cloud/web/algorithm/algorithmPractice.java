@@ -1,9 +1,6 @@
 package com.cloud.web.algorithm;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author: LiuHeYong
@@ -229,7 +226,11 @@ public class algorithmPractice {
         return num;
     }
 
-    //给数组做一组标志位数组
+    /**
+     * @Date: 2020-04-02
+     * @Description: 求交集
+     * 实现思想--给数组做一组标志位数组
+     */
     public static int[] intersect1(int[] nums1, int[] nums2) {
         int len1 = nums1.length;
         int len2 = nums2.length;
@@ -250,7 +251,11 @@ public class algorithmPractice {
         return in;
     }
 
-    //使用Map，数组作为键值key，计数器作为value
+    /**
+     * @Date: 2020-04-02
+     * @Description: 求交集
+     * 实现思想--使用Map，数组作为键值key，计数器作为value
+     */
     public static int[] intersect2(int[] nums1, int[] nums2) {
         Map<Integer, Integer> map = new HashMap<Integer, Integer>();
         for (int i = 0; i < nums1.length; i++) {
@@ -270,7 +275,11 @@ public class algorithmPractice {
         return in;
     }
 
-    //排好序后比较移动指针
+    /**
+     * @Date: 2020-04-02
+     * @Description: 求交集
+     * 实现思想--排好序后比较移动指针
+     */
     public static int[] intersect3(int[] nums1, int[] nums2) {
         Arrays.sort(nums1);
         Arrays.sort(nums2);
@@ -296,7 +305,7 @@ public class algorithmPractice {
 
     /**
      * @Date: 2020-04-02
-     * @Description: 加一(给定一个由整数组成的非空数组所表示的非负整数 ， 在该数的基础上加一 。)
+     * @Description: 尾元素加一(给定一个由整数组成的非空数组所表示的非负整数 ， 在该数的基础上加一 。)
      */
     public static int[] plusOne(int[] digits) {
         int n = digits.length;
@@ -340,6 +349,11 @@ public class algorithmPractice {
         }
     }
 
+    /**
+     * @Date: 2020-04-02
+     * @Description: 移动零(给定一个数组 nums, 编写一个函数将所有 0 移动到它的末尾 ， 同时保持非零元素的相对顺序 。)
+     * 实现思想--从后往前遍历，只要发现有0，0之后的所有数据往前移一位
+     */
     public static void moveZeroes02(int[] nums) {
         if (nums == null || nums.length == 0) {
             return;
@@ -361,7 +375,12 @@ public class algorithmPractice {
         }
     }
 
-    public void moveZeroes03(int[] nums) {
+    /**
+     * @Date: 2020-04-02
+     * @Description: 移动零(给定一个数组 nums, 编写一个函数将所有 0 移动到它的末尾 ， 同时保持非零元素的相对顺序 。)
+     * 实现思想--从前往后遍历，只要发现有不为0的，就赋值给nums[k]，k++
+     */
+    public static void moveZeroes03(int[] nums) {
         if (nums == null || nums.length == 0) {
             return;
         }
@@ -378,6 +397,120 @@ public class algorithmPractice {
         }
     }
 
+    /**
+     * @Date: 2020-04-02
+     * @Description: 两数之和等于target(给定一个整数数组 nums 和一个目标值 target ， 请你在该数组中找出和为目标值的那 两个 整数 ， 并返回他们的数组下标 。)
+     * 实现思想--从前往后遍历，依次计算和
+     */
+    public static int[] twoSum01(int[] nums, int target) {
+        if (nums == null || nums.length == 0) {
+            return null;
+        }
+        int n = a.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (a[i] + a[j] == target) {
+                    return new int[]{i, j};
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @Date: 2020-04-02
+     * @Description: 两数之和等于target(给定一个整数数组 nums 和一个目标值 target ， 请你在该数组中找出和为目标值的那 两个 整数 ， 并返回他们的数组下标 。)
+     * 实现思想--只需要知道剩下的数里，有没有数等于target - a即可，而每次从数组中找到某个数是否存在，都需要遍历一次，因此，更好的做法是将数与对应的序号存到一个map中，这样就能将查找效率从𝑂(𝑛)提高到𝑂(1)
+     */
+    public int[] twoSum02(int[] nums, int target) {
+        return mapSolution02(nums, target);
+    }
+
+    // 倒推法
+    private int[] mapSolution02(int[] nums, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            map.put(nums[i], i);
+        }
+        for (int i = 0; i < nums.length; i++) {
+            int num = target - nums[i];
+            // 判断num是否存在，如果已经存在，则直接返回
+            if (map.get(num) != null) {
+                return new int[]{map.get(num), i};
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @Date: 2020-04-02
+     * @Description: 两数之和等于target(给定一个整数数组 nums 和一个目标值 target ， 请你在该数组中找出和为目标值的那 两个 整数 ， 并返回他们的数组下标 。)
+     * 实现思想--只需要知道剩下的数里，有没有数等于target - a即可，而每次从数组中找到某个数是否存在，都需要遍历一次，因此，更好的做法是将数与对应的序号存到一个map中，这样就能将查找效率从𝑂(𝑛)提高到𝑂(1)
+     */
+    public int[] twoSum03(int[] nums, int target) {
+        return mapSolution03(nums, target);
+    }
+
+    // 倒推法
+    private int[] mapSolution03(int[] nums, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int num = target - nums[i];
+            // 判断num是否存在，如果已经存在，则直接返回
+            if (map.get(num) != null) {
+                return new int[]{map.get(num), i};
+            }
+            // 不存在则当前数值与序号的映射关系存入map中
+            map.put(nums[i], i);
+        }
+        return null;
+    }
+
+    /**
+     * @Date: 2020-04-02
+     * @Description: 有效的数独(数字 1 - 9 在每一行只能出现一次 。 数字 1 - 9 在每一列只能出现一次 。 数字 1 - 9 在每一个以粗实线分隔的 3x3 宫内只能出现一次 。)
+     * 实现思想--HashSet，不可保存重复元素，用3个HashSet，分别保存第i行、第i列和第i个3x3的九宫格中的元素，每处理一个元素，若不为空，将正在处理的当前元素，添加到所属的行、列以及3x3
+     * 的九宫格中，若添加失败，表明所属的行、列或者3x3九宫格中有重复元素，返回false；若全部扫描完，返回true。
+     */
+    public boolean isValidSudoku(char[][] board) {
+        //最外层循环，每次循环并非只是处理第i行，而是处理第i行、第i列以及第i个3x3的九宫格
+        for (int i = 0; i < 9; i++) {
+            HashSet<Character> line = new HashSet<>();
+            HashSet<Character> col = new HashSet<>();
+            HashSet<Character> cube = new HashSet<>();
+            for (int j = 0; j < 9; j++) {
+                if ('.' != board[i][j] && !line.add(board[i][j]))
+                    return false;
+                if ('.' != board[j][i] && !col.add(board[j][i]))
+                    return false;
+                int m = i / 3 * 3 + j / 3;
+                int n = i % 3 * 3 + j % 3;
+                if ('.' != board[m][n] && !cube.add(board[m][n]))
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @Date: 2020-04-02
+     * @Description: 旋转矩阵
+     */
+    public void rotate(int[][] matrix) {
+        int len = matrix.length;
+        for (int i = 0; i < len / 2; i++) {
+            int start = i; // 当前环的起始下标（横纵均相等）
+            int end = len - i - 1; // 当前环的终点下标（横纵均相等）
+            for (int j = 0; j < end - start; j++) {
+                int temp = matrix[start][start + j];
+                matrix[start][start + j] = matrix[end - j][start];
+                matrix[end - j][start] = matrix[end][end - j];
+                matrix[end][end - j] = matrix[start + j][end];
+                matrix[start + j][end] = temp;
+            }
+        }
+    }
+
     static int[] a = {1, 1, 0, 3, 2, 0};
     static int[] a1 = {41, 121, 2, 41, 81, 6, 81, -87, 87, 14};
     static Integer[] a2 = {133, 121, 81, 14, 534, -23, 87, -87, 81, 14};
@@ -386,8 +519,10 @@ public class algorithmPractice {
 
     public static void main(String[] args) {
 
-        moveZeroes02(a);
-        System.out.println(Arrays.toString(a));
+        //System.out.println(Arrays.toString(twoSum01(a, 0)));
+
+        //moveZeroes02(a);
+        //System.out.println(Arrays.toString(a));
 
         //System.out.println(Arrays.toString(plusOne(a)));
 
