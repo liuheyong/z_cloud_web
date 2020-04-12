@@ -39,19 +39,19 @@ public class TestMain {
         //
         //public static void main(String[] args) {
         //    Method method = null;
-        //    if (Object.class.equals(TestMain.class)) {
+        //    if (Object.class.equals(SortAlgorithm.class)) {
         //        try {
         //            System.out.println("1");
         //        } catch (Throwable t) {
         //        }
         //    }
 
-        /*TestMain test = new TestMain();
+        /*SortAlgorithm test = new SortAlgorithm();
         test.stackLeakByThread();*/
 
-        /*ArrayList<TestMain> arrayList = new ArrayList<TestMain>();
+        /*ArrayList<SortAlgorithm> arrayList = new ArrayList<SortAlgorithm>();
         while (true) {
-            arrayList.add(new TestMain());
+            arrayList.add(new SortAlgorithm());
         }*/
 
         /* Student student = new Student("liu", 99);

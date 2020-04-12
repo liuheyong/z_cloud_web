@@ -1,13 +1,13 @@
-package com.cloud.web.algorithm;
+package com.cloud.web.algorithm.leecode;
 
 import java.util.*;
 
 /**
  * @author: LiuHeYong
  * @create: 2020-04-02
- * @description:
+ * @description: 数组部分
  */
-public class algorithmPractice {
+public class algorithmPracticeArray {
 
     /**
      * @Date: 2020-04-02
@@ -422,12 +422,12 @@ public class algorithmPractice {
      * @Description: 两数之和等于target(给定一个整数数组 nums 和一个目标值 target ， 请你在该数组中找出和为目标值的那 两个 整数 ， 并返回他们的数组下标 。)
      * 实现思想--只需要知道剩下的数里，有没有数等于target - a即可，而每次从数组中找到某个数是否存在，都需要遍历一次，因此，更好的做法是将数与对应的序号存到一个map中，这样就能将查找效率从𝑂(𝑛)提高到𝑂(1)
      */
-    public int[] twoSum02(int[] nums, int target) {
+    public static int[] twoSum02(int[] nums, int target) {
         return mapSolution02(nums, target);
     }
 
     // 倒推法
-    private int[] mapSolution02(int[] nums, int target) {
+    private static int[] mapSolution02(int[] nums, int target) {
         Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
             map.put(nums[i], i);
@@ -447,12 +447,12 @@ public class algorithmPractice {
      * @Description: 两数之和等于target(给定一个整数数组 nums 和一个目标值 target ， 请你在该数组中找出和为目标值的那 两个 整数 ， 并返回他们的数组下标 。)
      * 实现思想--只需要知道剩下的数里，有没有数等于target - a即可，而每次从数组中找到某个数是否存在，都需要遍历一次，因此，更好的做法是将数与对应的序号存到一个map中，这样就能将查找效率从𝑂(𝑛)提高到𝑂(1)
      */
-    public int[] twoSum03(int[] nums, int target) {
+    public static int[] twoSum03(int[] nums, int target) {
         return mapSolution03(nums, target);
     }
 
     // 倒推法
-    private int[] mapSolution03(int[] nums, int target) {
+    private static int[] mapSolution03(int[] nums, int target) {
         Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
             int num = target - nums[i];
@@ -472,7 +472,7 @@ public class algorithmPractice {
      * 实现思想--HashSet，不可保存重复元素，用3个HashSet，分别保存第i行、第i列和第i个3x3的九宫格中的元素，每处理一个元素，若不为空，将正在处理的当前元素，添加到所属的行、列以及3x3
      * 的九宫格中，若添加失败，表明所属的行、列或者3x3九宫格中有重复元素，返回false；若全部扫描完，返回true。
      */
-    public boolean isValidSudoku(char[][] board) {
+    public static boolean isValidSudoku(char[][] board) {
         //最外层循环，每次循环并非只是处理第i行，而是处理第i行、第i列以及第i个3x3的九宫格
         for (int i = 0; i < 9; i++) {
             HashSet<Character> line = new HashSet<>();
@@ -496,7 +496,7 @@ public class algorithmPractice {
      * @Date: 2020-04-02
      * @Description: 旋转矩阵
      */
-    public void rotate(int[][] matrix) {
+    public static void rotate(int[][] matrix) {
         int len = matrix.length;
         for (int i = 0; i < len / 2; i++) {
             int start = i; // 当前环的起始下标（横纵均相等）
@@ -511,6 +511,23 @@ public class algorithmPractice {
         }
     }
 
+    /**
+     * @Date: 2020-04-02
+     * @Description: m的n次方
+     */
+    //public static int pow(int n){
+    //    int sum = 1;
+    //    int tmp = 3;
+    //    while(n != 0){
+    //        if(n & 1 == 1){
+    //            sum *= tmp;
+    //        }
+    //        tmp *= tmp;
+    //        n = n >> 1;
+    //    }
+    //    return sum;
+    //}
+
     static int[] a = {1, 1, 0, 3, 2, 0};
     static int[] a1 = {41, 121, 2, 41, 81, 6, 81, -87, 87, 14};
     static Integer[] a2 = {133, 121, 81, 14, 534, -23, 87, -87, 81, 14};
@@ -518,6 +535,8 @@ public class algorithmPractice {
     static char[] B = {'B', 'D', 'C', 'A', 'B', 'A'};
 
     public static void main(String[] args) {
+
+        //System.out.println(2 & 1);
 
         //System.out.println(Arrays.toString(twoSum01(a, 0)));
 

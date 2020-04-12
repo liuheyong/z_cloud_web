@@ -18,7 +18,7 @@ public class TestMain {
 
     public static void main(String[] args) {
         //MyInvocationHandler myInvocationHandler = new MyInvocationHandler(new UserServiceImpl());
-        //Object o = Proxy.newProxyInstance(TestMain.class.getClassLoader(), new Class[]{UserService.class},
+        //Object o = Proxy.newProxyInstance(SortAlgorithm.class.getClassLoader(), new Class[]{UserService.class},
         //        myInvocationHandler);
         //((UserService) o).query();
 
