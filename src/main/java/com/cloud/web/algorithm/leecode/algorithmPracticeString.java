@@ -350,9 +350,111 @@ public class algorithmPracticeString {
         return true;
     }
 
+    /**
+     * @Date: 2020-04-14
+     * @Param:
+     * @return:
+     * @Description: 字符串转换整数 (atoi)
+     */
+    public static int myAtoi(String str) {
+        int n = str.length();
+        int i = 0;
+        while (i < n && str.charAt(i) == ' ') {
+            i++;
+        }
+        if (i == n || !((str.charAt(i) == '+') || (str.charAt(i) == '-') || (str.charAt(i) >= '0' && str.charAt(i) <= '9'))) {
+            return 0;
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        if (str.charAt(i) == '-') {
+            stringBuilder.append('-');
+            i++;
+        } else if (str.charAt(i) == '+') {
+            i++;
+        }
+        if (i == n || !(str.charAt(i) >= '0' && str.charAt(i) <= '9')) {
+            return 0;
+        }
+        while (i < n && str.charAt(i) >= '0' && str.charAt(i) <= '9') {
+            stringBuilder.append(str.charAt(i));
+            i++;
+        }
+        try {
+            return Integer.valueOf(stringBuilder.toString());
+        } catch (Exception e) {
+            if (stringBuilder.substring(0, 1).equals("-")) {
+                return Integer.MIN_VALUE;
+            } else {
+                return Integer.MAX_VALUE;
+            }
+        }
+    }
+
+    /**
+     * @Date: 2020-04-14
+     * @Param:
+     * @return:
+     * @Description: 字符串转换整数 (atoi)
+     */
+    public static int atoi(String str) {
+        int len = str.length();
+        int start = 0;
+        while (start < len && str.charAt(start) == ' ') start++;
+        if (start >= len) return 0;
+        char firstChar = str.charAt(start);
+        int base = firstChar == '-' ? -1 : 1;
+        if (firstChar == '+' || firstChar == '-') start++;
+        int result = 0;
+        int max = Integer.MAX_VALUE;
+        int min = Integer.MIN_VALUE;
+        for (int i = start; i < len; ++i) {
+            char ch = str.charAt(i);
+            if (ch < '0' || ch > '9') {
+                break;
+            }
+            int num = ch - '0';
+            if (result > max / 10 || (result == max / 10 && num > 7)) {
+                return base > 0 ? max : min;
+            }
+            result = result * 10 + num;
+        }
+        return result * base;
+    }
+
+    /**
+     * @Date: 2020-04-14
+     * @Param:
+     * @return:
+     * @Description: 实现 strStr()
+     */
+    public static int strStr(String haystack, String needle) {
+        if (needle == null || needle.isEmpty()) {
+            return 0;
+        }
+        int len = needle.length();
+        for (int i = 0; i < haystack.length(); i++) {
+            if (haystack.charAt(i) == needle.charAt(0)) {
+                // 比较两个是否相等
+                boolean flag = true;
+                for (int k = 1; k < len; k++) {
+                    if ((i + k >= haystack.length()) || (needle.charAt(k) != haystack.charAt(i + k))) {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag) return i;
+            }
+        }
+        return -1;
+    }
+
     static char[] s = {'H', '2', 'n', 'e', 'a', 'h'};
 
     public static void main(String[] args) {
+
+        System.out.println(strStr("mingtian", "ppgtian"));
+
+        //System.out.println("!043X jqj X043!".indexOf(""));
 
         //System.out.println(isPalindrome("!043X jqj X043!"));
 
