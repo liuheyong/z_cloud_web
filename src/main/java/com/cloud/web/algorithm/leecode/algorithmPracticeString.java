@@ -448,11 +448,54 @@ public class algorithmPracticeString {
         return -1;
     }
 
+    /**
+     * @Date: 2020-04-14
+     * @Param:
+     * @return:
+     * @Description: 最长公共前缀
+     */
+    public static String longestCommonPrefix(String[] strArr) {
+        if (strArr == null || strArr.length == 0) {
+            return "";
+        }
+        if (strArr != null && strArr.length == 1) {
+            return strArr[0];
+        }
+        int n = strArr.length;
+        int length = strArr[0].length(), index = 0;
+        for (int i = 1; i < n; i++) {
+            if (strArr[i].length() < length) {
+                length = strArr[i].length();
+                index = i;
+            }
+        }
+        while (strArr[index].length() != 0) {
+            for (int i = 0; i < n; i++) {
+                length = strArr[index].length();
+                if (i == index) {
+                    continue;
+                }
+                if (strArr[i].substring(0, length).equals(strArr[index])) {
+                    if (i == n - 1 || (i == n - 2 && index == n - 1)) {
+                        return strArr[index];
+                    }
+                    continue;
+                } else {
+                    strArr[index] = strArr[index].substring(0, length - 1);
+                }
+            }
+        }
+        return "";
+    }
+
     static char[] s = {'H', '2', 'n', 'e', 'a', 'h'};
+    static String[] strArr = {"aa","a"};
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
-        System.out.println(strStr("mingtian", "ppgtian"));
+        System.out.println(longestCommonPrefix(strArr));
+
+        //System.out.println(strStr("mingtian", "ppgtian"));
 
         //System.out.println("!043X jqj X043!".indexOf(""));
 
