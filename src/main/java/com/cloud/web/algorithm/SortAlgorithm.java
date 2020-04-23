@@ -122,7 +122,7 @@ public class SortAlgorithm {
     /**
      * @Date: 2020-03-24
      * @Description: 快速排序算法(选取一个数为基数，比他大的总是在右边，小的总是在左边)
-     * @Description: 时间复杂度好的情况下为O(nlogn),坏的情况下为O(n^2)
+     * @Description: 时间复杂度好的情况下为O(n),坏的情况下为O(n^2)
      */
     public static void quickSort(int a[], int low, int high) {
         if (low >= high) {
