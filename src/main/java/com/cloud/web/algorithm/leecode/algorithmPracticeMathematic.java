@@ -56,10 +56,39 @@ public class algorithmPracticeMathematic {
         return 0;
     }
 
+    /**
+     * @Date: 2020-04-19
+     * @Param:
+     * @return:
+     * @Description: 2的幂（给定一个整数，写一个函数来判断它是否是 2 的幂次方）
+     */
+    public static boolean isPowerOfTwo(int n) {
+        if ((n & n - 1) == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @Date: 2020-04-19
+     * @Param:
+     * @return:
+     * @Description: 3的幂（给定一个整数，写一个函数来判断它是否是 3 的幂次方）
+     */
+    public static boolean isPowerOfThree(int n) {
+        double tem = Math.log10(n) / Math.log10(3);
+        return (tem - (int) (tem)) == 0 ? true : false;
+    }
+
 
     public static void main(String[] args) throws Exception {
 
-        System.out.println(countPrimes(200));
+        System.out.println(isPowerOfThree(81));
+
+        //System.out.println(isPowerOfTwo(200));
+
+        //System.out.println(countPrimes(200));
 
     }
 
