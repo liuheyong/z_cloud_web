@@ -1,9 +1,6 @@
 package com.cloud.web.algorithm.leecode;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author: LiuHeYong
@@ -131,9 +128,31 @@ public class algorithmPracticeByteDance {
         return maxdp;
     }
 
+    /**
+     * @Date: 2020-05-01
+     * @Param:
+     * @return:
+     * @Description: 字符串的排列（给定两个字符串 s1 和 s2，写一个函数来判断 s2 是否包含 s1 的排列）
+     */
+    public static boolean checkInclusion(String s1, String s2) {
+        int l1 = s1.length();
+        int l2 = s2.length();
+        int[] c1 = new int[26];
+        int[] c2 = new int[26];
+        for (char c : s1.toCharArray()) c1[c - 'a']++;
+        for (int i = 0; i < l2; i++) {
+            if (i >= l1) --c2[s2.charAt(i - l1) - 'a'];
+            c2[s2.charAt(i) - 'a']++;
+            if (Arrays.equals(c1, c2)) return true;
+        }
+        return false;
+    }
+
     public static void main(String[] args) throws Exception {
 
-        System.out.println(lengthOfLongestSubstring4("bdvdfp"));
+        System.out.println(checkInclusion("aab","paabp"));
+
+        //System.out.println(lengthOfLongestSubstring4("bdvdfp"));
 
         //System.out.println(lengthOfLongestSubstring1("bdvdfp"));
 
