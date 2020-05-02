@@ -1,4 +1,4 @@
-package com.cloud.web.algorithm;
+package com.cloud.web.algorithm.muke;
 
 import java.util.HashMap;
 import java.util.LinkedList;

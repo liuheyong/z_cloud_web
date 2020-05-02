@@ -1,4 +1,4 @@
-package com.cloud.web.algorithm;
+package com.cloud.web.algorithm.muke;
 
 /**
  * @author: LiuHeYong

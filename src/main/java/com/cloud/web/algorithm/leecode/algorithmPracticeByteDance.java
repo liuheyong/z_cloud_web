@@ -148,9 +148,113 @@ public class algorithmPracticeByteDance {
         return false;
     }
 
+    /**
+     * @Date: 2020-05-02
+     * @Param:
+     * @return:
+     * @Description: 翻转字符串里的单词(给定一个字符串, 逐个翻转字符串中的每个单词)
+     */
+    public static String reverseWords(String s) {
+        s = s.trim();
+        if (s == null || s.length() == 0) {
+            return "";
+        }
+        String allStr = "";
+        //入栈操作
+        int n = s.length();
+        Stack stack = new Stack();
+        String str = "";
+        for (int i = 0; i < n; i++) {
+            if (s.charAt(i) != 32) {
+                str += String.valueOf(s.charAt(i));
+            }
+            if (s.charAt(i) == 32 && s.charAt(i + 1) != 32) {
+                stack.push(str);
+                str = "";
+            }
+        }
+        stack.push(str);
+        //stack.stream().forEach(item->{System.out.println(item);});
+        while (!stack.empty()) {
+            str = String.valueOf(stack.pop());
+            for (int i = 0; i < str.length(); i++) {
+                allStr += String.valueOf(str.charAt(i));
+            }
+            allStr += " ";
+        }
+        return allStr.trim();
+    }
+
+    /**
+     * @Date: 2020-05-02
+     * @Param:
+     * @return:
+     * @Description: 三数之和(数组 nums ， 判断 nums 中是否存在三个元素 a ， b ， c ， 使得 a + b + c = 0)
+     * 未完待续
+     */
+    public static List<List<Integer>> threeSum(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return null;
+        }
+        int n = nums.length;
+        Set<List<Integer>> returnList = new HashSet<>();
+
+        for (int i = 0; i < n - 2; i++) {
+            for (int j = i + 2; j < n; j++) {
+                if (nums[i] + nums[i + 1] + nums[j] == 0) {
+                    List<Integer> list = new ArrayList<>();
+                    list.add(nums[i]);
+                    list.add(nums[i + 1]);
+                    list.add(nums[j]);
+                    returnList.add(list);
+                }
+            }
+
+        }
+        return new ArrayList<>(returnList);
+    }
+
+    /**
+     * @Date: 2020-05-02
+     * @Param:
+     * @return:
+     * @Description: 三数之和(fix一个元素，找另外两个元素之和等于第一个元素的相反数)
+     * 未完待续
+     */
+    //class Solution {
+    //    public:
+    //    vector<vector<int>> threeSum(vector<int>& nums) {
+    //        vector<vector<int>> res;
+    //        sort(nums.begin(), nums.end());
+    //        if (nums.empty() || nums.back() < 0 || nums.front() > 0) return {};
+    //        for (int k = 0; k < nums.size(); ++k) {
+    //            if (nums[k] > 0) break;
+    //            if (k > 0 && nums[k] == nums[k - 1]) continue;
+    //            int target = 0 - nums[k];
+    //            int i = k + 1, j = nums.size() - 1;
+    //            while (i < j) {
+    //                if (nums[i] + nums[j] == target) {
+    //                    res.push_back({nums[k], nums[i], nums[j]});
+    //                    while (i < j && nums[i] == nums[i + 1]) ++i;
+    //                    while (i < j && nums[j] == nums[j - 1]) --j;
+    //                    ++i; --j;
+    //                } else if (nums[i] + nums[j] < target) ++i;
+    //                else --j;
+    //            }
+    //        }
+    //        return res;
+    //    }
+    //};
+
+    static int[] a = {-1, 0, 1, 2, -1, -4};
+
     public static void main(String[] args) throws Exception {
 
-        System.out.println(checkInclusion("aab","paabp"));
+        System.out.println(threeSum(a));
+
+        //System.out.println(reverseWords("   the   sky    is   blue   "));
+
+        //System.out.println(checkInclusion("aab", "paabp"));
 
         //System.out.println(lengthOfLongestSubstring4("bdvdfp"));
 
