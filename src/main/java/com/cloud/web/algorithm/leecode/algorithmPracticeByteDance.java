@@ -218,7 +218,7 @@ public class algorithmPracticeByteDance {
      * @Date: 2020-05-02
      * @Param:
      * @return:
-     * @Description: 三数之和(fix一个元素，找另外两个元素之和等于第一个元素的相反数)
+     * @Description: 三数之和(fix一个元素 ， 找另外两个元素之和等于第一个元素的相反数)
      * 未完待续
      */
     //class Solution {
@@ -245,6 +245,41 @@ public class algorithmPracticeByteDance {
     //        return res;
     //    }
     //};
+
+    /**
+     * @Date: 2020-05-02
+     * @Param:
+     * @return:
+     * @Description: 岛屿的最大面积
+     * 未完待续
+     */
+    public int maxAreaOfIsland(int[][] grid) {
+        int result = 0;
+        if (grid == null || grid.length == 0) {
+            return result;
+        }
+        int rows = grid.length;
+        int cols = grid[0].length;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == 1) {
+                    int count = dfs(grid, i, j);
+                    result = Math.max(result, count);
+                }
+            }
+        }
+        return result;
+    }
+
+    private int dfs(int[][] grid, int row, int col) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+        if (row < 0 || row >= rows || col < 0 || col >= cols || grid[row][col] == 0) {
+            return 0;
+        }
+        grid[row][col] = 0;
+        return dfs(grid, row + 1, col) + dfs(grid, row - 1, col) + dfs(grid, row, col + 1) + dfs(grid, row, col - 1) + 1;
+    }
 
     static int[] a = {-1, 0, 1, 2, -1, -4};
 
