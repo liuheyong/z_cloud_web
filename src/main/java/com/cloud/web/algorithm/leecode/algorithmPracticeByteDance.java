@@ -1,5 +1,7 @@
 package com.cloud.web.algorithm.leecode;
 
+import com.cloud.web.web.DefaultController;
+
 import java.util.*;
 
 /**
@@ -7,7 +9,7 @@ import java.util.*;
  * @create: 2020-04-09
  * @description: ByteDance部分
  */
-public class algorithmPracticeByteDance {
+public class algorithmPracticeByteDance extends DefaultController {
 
     /**
      * @Date: 2020-04-19
@@ -271,6 +273,12 @@ public class algorithmPracticeByteDance {
         return result;
     }
 
+    /**
+     * @Date: 2020-05-02
+     * @Param:
+     * @return:
+     * @Description: 岛屿的最大面积
+     */
     private int dfs(int[][] grid, int row, int col) {
         int rows = grid.length;
         int cols = grid[0].length;
@@ -281,11 +289,179 @@ public class algorithmPracticeByteDance {
         return dfs(grid, row + 1, col) + dfs(grid, row - 1, col) + dfs(grid, row, col + 1) + dfs(grid, row, col - 1) + 1;
     }
 
-    static int[] a = {-1, 0, 1, 2, -1, -4};
+    /**
+     * @Date: 2020-05-02
+     * @Param:
+     * @return:
+     * @Description: 搜索旋转排序数组
+     */
+    public int search(int[] nums, int target) {
+        //双指针法
+        if (nums.length == 0) return -1;
+        int i = 0;
+        int j = nums.length - 1;
+        while (i <= j) {
+            //二分法，分情况
+            int mid = (i + j) / 2;
+            if (nums[mid] == target)
+                return mid;
+            if (nums[mid] >= nums[i]) {
+                if (nums[i] <= target && target < nums[mid])
+                    j = mid - 1;
+                else
+                    i = mid + 1;
+            } else {
+                if (nums[mid] < target && target <= nums[j])
+                    i = mid + 1;
+                else
+                    j = mid - 1;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * @Date: 2020-05-02
+     * @Param:
+     * @return:
+     * @Description: 最长连续递增序列（双指针枚举法）
+     */
+    public static int findLengthOfLCIS1(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int n = nums.length;
+        int maxLength = 1;
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                if (j + 1 < n && nums[j] < nums[j + 1]) {
+                    maxLength++;
+                } else {
+                    break;
+                }
+            }
+            a[i] = maxLength;
+            maxLength = 1;
+        }
+        int count = 0;
+        for (int i = 0; i < a.length; i++) {
+            if (a[i] > count) {
+                count = a[i];
+            }
+        }
+        return count;
+    }
+
+    /**
+     * @Date: 2020-05-02
+     * @Param:
+     * @return:
+     * @Description: 最长连续递增序列（单指针枚举法）
+     */
+    public int findLengthOfLCIS2(int[] nums) {
+        if (nums.length == 0)
+            return 0;
+        int max = 0;
+        int count = 1;
+        for (int i = 0; i < nums.length - 1; i++) {
+            if (nums[i] < nums[i + 1]) {
+                count++;
+            } else {
+                max = Math.max(count, max);
+                count = 1;
+            }
+        }
+        max = Math.max(count, max);
+        return max;
+    }
+
+    /**
+     * @Date: 2020-05-02
+     * @Param:
+     * @return:
+     * @Description: 最长连续递增序列（分治法）
+     */
+    public static int findLengthOfLCIS3(int[] nums, int left, int right) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int leftCount = 0;
+        int rightCount = 0;
+        int mergeCount = 0;
+        int mid = left + right >> 1;
+        //left < right 递归出口
+        if (left < right) {
+            leftCount = findLengthOfLCIS3(nums, left, mid);
+            rightCount = findLengthOfLCIS3(nums, mid + 1, right);
+            mergeCount = mergeCount(nums, left, mid, right);
+        }
+        return maxInThreeNum(leftCount, rightCount, mergeCount);
+    }
+
+    public static int mergeCount(int[] nums, int left, int mid, int right) {
+        int leftCount = 0;
+        for (int i = mid; i >= left; i--) {
+            if (i - 1 >= left && nums[i] > nums[i - 1]) {
+                leftCount++;
+            }
+        }
+        int rightCount = 0;
+        for (int i = mid + 1; i <= right; i++) {
+            if (i + 1 <= right && a[i] < a[i + 1]) {
+                rightCount++;
+            }
+        }
+        return leftCount + rightCount;
+    }
+
+    /**
+     * @Date: 2020-05-02
+     * @Param:
+     * @return:
+     * @Description: 最长连续递增序列（动态规划）
+     */
+    public static int findLengthOfLCIS4(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int n = nums.length;
+        int[] C = new int[n];
+        int[] Rec = new int[n];
+        C[0] = 1;
+        Rec[0] = 0;
+        for (int i = 1; i < n; i++) {
+            if (nums[i] > nums[i - 1]) {
+                C[i] = C[i - 1] + 1;
+                Rec[i] = Rec[i - 1];
+            } else {
+                C[i] = 1;
+                Rec[i] = i;
+            }
+        }
+        int count = 0;
+        int index = 0;
+        for (int i = 0; i < C.length; i++) {
+            if (C[i] > count) {
+                count = C[i];
+                index = i;
+            }
+        }
+        System.out.println("开始下标和结束下标为：" + Rec[index] + " " + (count - Rec[index] - 1));
+        return count;
+    }
+
+    static int[] a = {1, 3, 5, 4, 7};
 
     public static void main(String[] args) throws Exception {
 
-        System.out.println(threeSum(a));
+        System.out.println(findLengthOfLCIS4(a));
+
+        //System.out.println(findLengthOfLCIS3(a,0,4));
+
+        //System.out.println(findLengthOfLCIS1(a));
+
+        //System.out.println(threeSum(a));
 
         //System.out.println(reverseWords("   the   sky    is   blue   "));
 
