@@ -482,11 +482,58 @@ public class algorithmPracticeByteDance extends DefaultController {
         return element;
     }
 
-    static int[] a = {3, 2, 3, 1, 2, 4, 5, 5, 6};
+    /**
+     * @Date: 2020-05-04
+     * @Param:
+     * @return:
+     * @Description: 最长连续序列
+     */
+    public static int longestConsecutive(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        int n = nums.length;
+        int min = Integer.MAX_VALUE;
+        int minIndex = 0;
+        for (int i = 0; i < n; i++) {
+            if (nums[i] < min) {
+                min = nums[i];
+                minIndex = i;
+            }
+        }
+        int[] C = new int[n];
+        C[minIndex] = 1;
+        Integer[] numsInteger = Arrays.stream(nums).boxed().toArray(Integer[]::new);
+        for (int i = n - 1; i >= 0; i--) {
+            if (nums[i] == min) {
+                continue;
+            }
+            int preIndex = new ArrayList<>(Arrays.asList(numsInteger)).indexOf(nums[i] - 1);
+            if (preIndex != -1) {
+                C[i] = C[preIndex] + 1;
+            } else {
+                C[i] = 1;
+            }
+        }
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            if (C[i] > max) {
+                max = C[i];
+            }
+        }
+        return max;
+    }
+
+    static int[] a = {100, 4, 200, 1, 3, 2};
 
     public static void main(String[] args) throws Exception {
 
-        System.out.println(findKthLargest(a, 4));
+        System.out.println(longestConsecutive(a));
+
+        //System.out.println(findKthLargest(a, 4));
 
         //System.out.println(findLengthOfLCIS4(a));
 
