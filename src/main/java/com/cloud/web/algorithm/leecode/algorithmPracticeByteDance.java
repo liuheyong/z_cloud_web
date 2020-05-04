@@ -1,5 +1,6 @@
 package com.cloud.web.algorithm.leecode;
 
+import com.cloud.web.algorithm.muke.SortAlgorithm;
 import com.cloud.web.web.DefaultController;
 
 import java.util.*;
@@ -451,11 +452,43 @@ public class algorithmPracticeByteDance extends DefaultController {
         return count;
     }
 
-    static int[] a = {1, 3, 5, 4, 7};
+    /**
+     * @Date: 2020-05-04
+     * @Param:
+     * @return:
+     * @Description: 数组中的第K个最大元素
+     */
+    public static int findKthLargest(int[] nums, int k) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        //将第K个最大元素转换为第l个最小元素
+        int l = nums.length + 1 - k;
+        return findKthLargestWithIndex(nums, 0, nums.length - 1, l);
+    }
+
+    public static int findKthLargestWithIndex(int[] nums, int left, int right, int l) {
+        int element = 0;
+        int p = SortAlgorithm.randomPartitionEx(nums, left, right);
+        if (p - left + 1 == l) {
+            element = nums[p];
+        }
+        if (p - left + 1 > l) {
+            element = findKthLargestWithIndex(nums, left, p, l);
+        }
+        if (p - left + 1 < l) {
+            element = findKthLargestWithIndex(nums, p + 1, right, l - (p - left + 1));
+        }
+        return element;
+    }
+
+    static int[] a = {3, 2, 3, 1, 2, 4, 5, 5, 6};
 
     public static void main(String[] args) throws Exception {
 
-        System.out.println(findLengthOfLCIS4(a));
+        System.out.println(findKthLargest(a, 4));
+
+        //System.out.println(findLengthOfLCIS4(a));
 
         //System.out.println(findLengthOfLCIS3(a,0,4));
 

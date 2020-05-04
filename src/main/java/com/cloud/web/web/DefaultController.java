@@ -36,4 +36,57 @@ public class DefaultController implements Cloneable, Serializable {
         return true;
     }
 
+    public static int maxInTwoNum(int a, int b) {
+        return a > b ? a : b;
+    }
+
+    public static int maxInThreeNum(int S_Left, int S_Right, int S_Cross_Left_Right) {
+        return (S_Left > S_Right ? (S_Left > S_Cross_Left_Right ? S_Left : S_Cross_Left_Right) : (S_Right > S_Cross_Left_Right ? S_Right : S_Cross_Left_Right));
+    }
+
+    public static void swap(int a, int b) {
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
+    }
+
+    //交换数组a中的a[i]和a[j]
+    private static void swap(int[] a, int i, int j) {
+        int temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
+
+    /*
+     * 是否是大写
+     */
+    public static boolean isUpperCase(char c) {
+        return c >= 65 && c <= 90;
+    }
+
+    /*
+     * 是否是小写
+     */
+    public static boolean isLowerCase(char c) {
+        return c >= 97 && c <= 122;
+    }
+
+    /*
+     * 是否是数字
+     */
+    public static boolean isNumeric(char c) {
+        return c >= 48 && c <= 57;
+    }
+
+    /*
+     * 大写转小写
+     */
+    public static char upperCaseToLowerCase(char c) {
+        if (isLowerCase(c)) {
+            return c;
+        } else {
+            return (char) (c + 32);
+        }
+    }
+
 }
