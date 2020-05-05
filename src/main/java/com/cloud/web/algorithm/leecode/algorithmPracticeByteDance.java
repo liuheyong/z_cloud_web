@@ -527,6 +527,36 @@ public class algorithmPracticeByteDance extends DefaultController {
         return max;
     }
 
+    /*
+     *  哈希表和线性空间构造
+     *  时间复杂度O(n)   空间复杂度O(n)
+     */
+    //class Solution {
+    //    public:
+    //    int longestConsecutive(vector<int>& nums) {
+    //        if(nums.size() < 2) return nums.size();
+    //        set<int> s;
+    //        for(auto num:nums) s.insert(num);   // 构建集合
+    //
+    //        int maxLen = 0, currentLen = 0;
+    //        for (int num:s) {
+    //            // 只检查num-1不在集合中的元素
+    //            if(s.count(num-1) == 0){
+    //                int currentNum = num;
+    //                currentLen = 1;
+    //
+    //                while (s.count(currentNum+1)){  // 往后查找元素是否存在
+    //                    currentLen ++;
+    //                    currentNum ++;
+    //                }
+    //                maxLen = max(maxLen,currentLen);
+    //            }
+    //        }
+    //
+    //        return maxLen;
+    //    }
+    //};
+
     static int[] a = {100, 4, 200, 1, 3, 2};
 
     public static void main(String[] args) throws Exception {
