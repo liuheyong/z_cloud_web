@@ -41,7 +41,8 @@ public class DefaultController implements Cloneable, Serializable {
     }
 
     public static int maxInThreeNum(int S_Left, int S_Right, int S_Cross_Left_Right) {
-        return (S_Left > S_Right ? (S_Left > S_Cross_Left_Right ? S_Left : S_Cross_Left_Right) : (S_Right > S_Cross_Left_Right ? S_Right : S_Cross_Left_Right));
+        return (S_Left > S_Right ? (S_Left > S_Cross_Left_Right ? S_Left : S_Cross_Left_Right) : (S_Right > S_Cross_Left_Right ?
+                S_Right : S_Cross_Left_Right));
     }
 
     public static void swap(int a, int b) {
@@ -86,6 +87,17 @@ public class DefaultController implements Cloneable, Serializable {
             return c;
         } else {
             return (char) (c + 32);
+        }
+    }
+
+    /*
+     * 链表节点
+     */
+    public class ListNode {
+        public int val;
+        public ListNode next;
+        public ListNode(int x) {
+            val = x;
         }
     }
 

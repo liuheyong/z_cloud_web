@@ -557,11 +557,375 @@ public class algorithmPracticeByteDance extends DefaultController {
     //    }
     //};
 
+    /**
+     * @Date: 2020-05-07
+     * @Param:
+     * @return:
+     * @Description: 朋友圈 (深度优先遍历)
+     */
+    public int findCircleNumDFS(int[][] M) {
+        boolean[] visited = new boolean[M.length];
+        int res = 0;
+        for (int i = 0; i < M.length; i++) {
+            if (!visited[i]) {
+                DFS(M, i, visited);
+                res++;
+            }
+        }
+        return res;
+    }
+
+    public void DFS(int[][] M, int k, boolean[] visited) {
+        visited[k] = true;
+        for (int i = 0; i < M.length; i++) {
+            if (!visited[i] && M[k][i] == 1) {
+                visited[i] = true;
+                DFS(M, i, visited);
+            }
+        }
+    }
+
+    /**
+     * @Date: 2020-05-07
+     * @Param:
+     * @return:
+     * @Description: 朋友圈 (广度优先遍历)
+     */
+    public int findCircleNumBFS(int[][] M) {
+        boolean[] visited = new boolean[M.length];
+        int res = 0;
+        Queue<Integer> queue;
+        for (int i = 0; i < M.length; i++) {
+            if (!visited[i]) {
+                queue = new LinkedList<>();
+                queue.add(i);
+                BFS(M, queue, visited);
+                res++;
+            }
+        }
+        return res;
+    }
+
+    public void BFS(int[][] M, Queue<Integer> q, boolean[] visited) {
+        while (!q.isEmpty()) {
+            int a = q.poll();
+            for (int i = 0; i < M.length; i++) {
+                if (i != a && M[a][i] == 1 && !visited[i]) {
+                    q.add(i);
+                    visited[i] = true;
+                }
+            }
+        }
+    }
+
+    /**
+     * @Date: 2020-05-07
+     * @Param:
+     * @return:
+     * @Description: 合并区间
+     */
+    public static int[][] merge(int[][] intervals) {
+        int len = intervals.length;
+        if (len < 2) return intervals;
+        int cnt = 0; // 合并次数
+        for (int i = 0; i < len - 1; i++) {
+            for (int j = i + 1; j < len; j++) {
+                if (intervals[i][0] <= intervals[j][1] && intervals[i][1] >= intervals[j][0]) {
+                    intervals[j][0] = Math.min(intervals[j][0], intervals[i][0]);
+                    intervals[j][1] = Math.max(intervals[j][1], intervals[i][1]);
+                    intervals[i] = null; // 清空前者
+                    cnt++;
+                    break;
+                }
+            }
+        }
+
+        int[][] res = new int[len - cnt][2]; // len - cnt 合并后个数
+        int ri = 0;
+        for (int[] pair : intervals) {
+            if (pair != null) res[ri++] = pair;
+        }
+        return res;
+    }
+
+    /**
+     * @Date: 2020-05-09
+     * @Param:
+     * @return:
+     * @Description: 接雨水
+     */
+    public static int trap(int[] height) {
+        int n = height.length;
+        int result = 0;
+        if (n == 0) {
+            return result;
+        }
+        int maxHeight = height[0];
+        for (int i = 1; i < n; i++) {
+            if (height[i] > maxHeight) {
+                maxHeight = height[i];
+            }
+        }
+        int[] newHeight = new int[n];
+        for (int i = 0; i < maxHeight; i++) {
+            for (int j = 0; j < n; j++) {
+                newHeight[j] = height[j] - i;
+            }
+            int left = 0;
+            int right = n - 1;
+            while (left < n && newHeight[left] <= 0) {
+                left++;
+            }
+            while (right >= 0 && newHeight[right] <= 0) {
+                right--;
+            }
+            for (int j = left; j <= right; j++) {
+                if (newHeight[j] <= 0) {
+                    result++;
+                }
+            }
+        }
+        return result;
+    }
+
+    public static int trap2(int[] height) {
+        int n = height.length;
+        int result = 0;
+        if (n == 0 || n == 1) {
+            return result;
+        }
+        int left = 0;
+        //variable left represents the left border of the area where can contain water
+        while (left < n - 1 && height[left + 1] >= height[left]) {
+            left++;
+        }
+        int right = n - 1;
+        //variable right represents the right border of the area where can contain water
+        while (right >= 1 && height[right - 1] >= height[right]) {
+            right--;
+        }
+        while (left < right) {
+            int leftHeight = height[left];
+            int rightHeight = height[right];
+            if (leftHeight <= rightHeight) {
+                while (left < right) {
+                    left++;
+                    if (height[left] < leftHeight) {
+                        result += leftHeight - height[left];
+                    } else {
+                        break;
+                    }
+                }
+            } else {
+                while (left < right) {
+                    right--;
+                    if (height[right] < rightHeight) {
+                        result += rightHeight - height[right];
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public static int trap3(int[] height) {
+        int n = height.length;
+        int result = 0;
+        if (n == 0 || n == 1) {
+            return result;
+        }
+        int left = 0;
+        int right = n - 1;
+        int leftHeight = 0;
+        int rightHeight = 0;
+        while (left < right) {
+            if (height[left] <= height[right]) {
+                leftHeight = Math.max(leftHeight, height[left]);
+                result += leftHeight - height[left];
+                left++;
+            } else {
+                rightHeight = Math.max(rightHeight, height[right]);
+                result += rightHeight - height[right];
+                right--;
+            }
+        }
+        return result;
+    }
+
+    public static int trap4(int[] height) {
+        int n = height.length;
+        int result = 0;
+        if (n == 0 || n == 1) {
+            return result;
+        }
+        for (int i = 1; i < n - 1; i++) {
+            int leftMax = 0;
+            for (int j = 0; j < i; j++) {
+                leftMax = Math.max(leftMax, height[j]);
+            }
+            int rightMax = 0;
+            for (int j = i + 1; j < n; j++) {
+                rightMax = Math.max(rightMax, height[j]);
+            }
+            int min = Math.min(leftMax, rightMax);
+            if (min > height[i]) {
+                result += min - height[i];
+            }
+        }
+        return result;
+    }
+
+    public static int trap5(int[] height) {
+        int n = height.length;
+        int result = 0;
+        if (n == 0 || n == 1) {
+            return result;
+        }
+        int[] leftMax = new int[n];
+        int[] rightMax = new int[n];
+        leftMax[0] = height[0];
+        rightMax[n - 1] = height[n - 1];
+        for (int i = 1; i < n; i++) {
+            leftMax[i] = Math.max(height[i], leftMax[i - 1]);
+            rightMax[n - 1 - i] = Math.max(height[n - 1 - i], rightMax[n - i]);
+        }
+        for (int i = 1; i < n - 1; i++) {
+            int min = Math.min(leftMax[i - 1], rightMax[i + 1]);
+            if (min > height[i]) {
+                result += min - height[i];
+            }
+        }
+        return result;
+    }
+
+    public static int trap6(int[] height) {
+        int n = height.length;
+        int result = 0;
+        if (n == 0 || n == 1) {
+            return result;
+        }
+        int cur = 0;
+        Stack<Integer> stack = new Stack<Integer>();
+        while (cur < n) {
+            while (!stack.isEmpty() && height[cur] > height[stack.peek()]) {
+                int top = stack.pop();
+                if (stack.isEmpty()) {
+                    break;
+                }
+                //distance represents the width
+                int distance = cur - stack.peek() - 1;
+                //tempHeight represents the height
+                int tempHeight = Math.min(height[cur], height[stack.peek()]) - height[top];
+                result += tempHeight * distance;
+            }
+            stack.push(cur);
+            cur++;
+        }
+        return result;
+    }
+
+    /**
+     * @Date: 2020-05-09
+     * @Param:
+     * @return:
+     * @Description: 两数相加
+     */
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        // 创建结果链表的头节点，默认该节点中的value为-1
+        ListNode dummy = new ListNode(-1);
+        ListNode pre = dummy;
+        // 进位标识carry，默认为0
+        int carry = 0;
+        // 遍历链表，当两个链表都为空时，退出
+        while (l1 != null || l2 != null) {
+            // 判断该节点是否为空，当结点为空时，用0补齐；不为空时，加数即为节点的值
+            int d1 = (l1 == null) ? 0 : l1.val;
+            int d2 = (l2 == null) ? 0 : l2.val;
+            // 对结点求和，注意：求和是需要考虑到进位
+            int sum = d1 + d2 + carry;
+            // 更新进位标识
+            carry = (sum >= 10) ? 1 : 0;
+            // sum%10标识求和的个位数，将其保存到结果链表中
+            pre.next = new ListNode(sum % 10);
+            pre = pre.next;
+            if (l1 != null) l1 = l1.next;
+            if (l2 != null) l2 = l2.next;
+        }
+        // 重点，这是一个特殊情况，当两个链表计算完后，
+        // 还需要判断进位标识是否为1，如果为1，如23+81=104，需要创建一个结点保存最高位
+        if (carry == 1)
+            pre.next = new ListNode(1);
+        return dummy.next;
+    }
+
+    /**
+     * @Date: 2020-05-09
+     * @Param:
+     * @return:
+     * @Description: 排序链表
+     */
+    public ListNode sortList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        sort(head, null);
+        return head;
+    }
+
+    private void sort(ListNode head, ListNode end) {
+        if (head == end || head.next == end) {
+            return;
+        }
+        ListNode pre = head.next;
+        ListNode cur = head;
+        ListNode cure = head;
+
+        while (pre != end) {
+            if (pre.val < cur.val) {
+                if (cure.next == pre) {
+                    int n = pre.val;
+                    pre.val = cur.val;
+                    cur.val = n;
+                    pre = pre.next;
+                    cur = cur.next;
+                    cure = cure.next;
+                } else {
+                    int n = pre.val;
+                    pre.val = cur.val;
+                    cur.val = n;
+                    int v = pre.val;
+                    pre.val = cure.next.val;
+                    cure.next.val = v;
+                    cure = cure.next;
+                    cur = cur.next;
+                    pre = pre.next;
+                }
+            } else if (pre.val == cur.val) {
+                if (cure.next == pre) {
+                    cure = pre;
+                    pre = pre.next;
+                } else {
+                    int n = pre.val;
+                    pre.val = cure.next.val;
+                    cure.next.val = n;
+                    cure = cure.next;
+                    pre = pre.next;
+                }
+            } else {
+                pre = pre.next;
+            }
+        }
+        sort(head, cur);
+        sort(cure.next, end);
+    }
+
     static int[] a = {100, 4, 200, 1, 3, 2};
 
     public static void main(String[] args) throws Exception {
 
-        System.out.println(longestConsecutive(a));
+        //System.out.println(longestConsecutive(a));
 
         //System.out.println(findKthLargest(a, 4));
 
