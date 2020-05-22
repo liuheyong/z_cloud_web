@@ -1,6 +1,7 @@
 package com.cloud.web.web;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.dubbo.rpc.RpcContext;
 import com.cloud.commons.constants.Constants;
 import com.cloud.commons.dto.ECooperateMer;
 import com.cloud.commons.response.QueryECooperateMerResponse;
@@ -131,6 +132,7 @@ public class ECooperateMerController extends DefaultController {
             //for (int i = 0; i < Constants.NUMBER_100; i++) {
             //    executorService.submit(runnable);
             //}
+            RpcContext.getContext().setAttachment("myKey", "myValue");
             QueryECooperateMerResponse response = eCooperateMerService.queryECooperateMerListPage(eCooperateMer);
             model.put("eCooperateMerList", response.geteCooperateMerList());
             //redisTemplate.opsForValue().set("eCooperateMerList", response.geteCooperateMerList());
