@@ -1048,7 +1048,7 @@ public class algorithmPracticeByteDance extends DefaultController {
             cur = cur.next;
         }
         return res.next;
-    }
+    }   
 
     public class TreeNode {
         int val;
