@@ -109,6 +109,38 @@ public class dynamicPlan {
         }
     }
 
+    /**
+     * @date: 2020/5/12
+     * @param:
+     * @return:
+     * @exception:
+     * @description: 最大正方形
+     */
+    public int maximalSquare(char[][] matrix) {
+        if (matrix.length == 0) {
+            return 0;
+        }
+        int max = 0, m = matrix.length, n = matrix[0].length;
+        int[][] dp = new int[m][n];
+        //先初始化 dp数组的第一列
+        for (int i = 0; i < m; i++) {
+            dp[i][0] = matrix[i][0] - '0';
+            max = Math.max(max, dp[i][0]);
+        }
+        //再初始化dp数组的第一行
+        for (int i = 0; i < n; i++) {
+            dp[0][i] = matrix[0][i] - '0';
+            max = Math.max(max, dp[0][i]);
+        }
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[i][j] = matrix[i][j] == '1' ? Math.min(dp[i - 1][j - 1], Math.min(dp[i][j - 1], dp[i - 1][j])) + 1 : 0;
+                max = Math.max(max, dp[i][j]);
+            }
+        }
+        return max * max;
+    }
+
     static int[] a = {133, 121, -12, 14, 534, -23, 87, -87, 81, 41};
     static Integer[] a1 = {133, 121, -12, 14, 534, -23, 87, -87, 81, 41};
     static int[] a2 = {1, -2, 4, 5, -2, 8, 3, -2, 6, 3, 7, -1};
