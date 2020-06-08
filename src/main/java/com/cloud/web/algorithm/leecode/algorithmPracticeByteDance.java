@@ -917,13 +917,324 @@ public class algorithmPracticeByteDance extends DefaultController {
                 pre = pre.next;
             }
         }
+        //分治递归求解
         sort(head, cur);
         sort(cure.next, end);
     }
 
-    static int[] a = {100, 4, 200, 1, 3, 2};
+    /**
+     * @Date: 2020-05-11
+     * @Param:
+     * @return:
+     * @Description: 相交链表
+     */
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+        ListNode p1 = headA;
+        ListNode p2 = headB;
+        while (p1 != p2) {
+            if (p1 == null) {
+                p1 = headB;
+            } else {
+                p1 = p1.next;
+            }
+            if (p2 == null) {
+                p2 = headA;
+            } else {
+                p2 = p2.next;
+            }
+        }
+        return p1;
+    }
+
+    /**
+     * @date: 2020/5/12
+     * @param:
+     * @return:
+     * @exception:
+     * @description: 合并K个排序链表
+     * 输入:
+     * [
+     * 1->4->5,
+     * 1->3->4,
+     * 2->6
+     * ]
+     * 输出: 1->1->2->3->4->4->5->6
+     */
+    public ListNode mergeKLists(ListNode[] lists) {
+        if (lists == null || lists.length == 0) {
+            return null;
+        }
+        if (lists.length == 1) {
+            return lists[0];
+        }
+        ListNode concatNode = lists[0];
+        ListNode indexNode = concatNode;
+        ListNode indexPre = new ListNode();
+        indexPre.next = indexNode;
+        for (int i = 1; i < lists.length; i++) {
+            while (lists[i] != null) {
+                if (lists[i].val > indexNode.val) {
+                    indexNode = indexNode.next;
+                }
+                if (lists[i].val == indexNode.val) {
+                    if (indexNode.next != null) {
+                        ListNode temNode = indexNode.next;
+                        indexNode.next = lists[i];
+                        lists[i].next = temNode;
+                        indexNode = indexNode.next;
+                        lists[i] = lists[i].next;
+                    } else {
+                        indexNode.next = lists[i];
+                        lists[i] = lists[i].next;
+                    }
+                }
+                if (lists[i].val < indexNode.val) {
+                    ListNode temNode = lists[i];
+                    temNode.next = indexNode;
+                    indexPre.next = temNode;
+                    lists[i] = lists[i].next;
+                }
+            }
+        }
+        return concatNode;
+    }
+
+    /**
+     * @date: 2020/5/12
+     * @param:
+     * @return:
+     * @exception:
+     * @description: 合并2个排序链表
+     */
+    public static ListNode mergeTwoListNode(ListNode l1, ListNode l2) {
+        if (l1 == null || l2 == null) {
+            return (l1 == null) ? l2 : l1;
+        }
+        if (l1.val <= l2.val) {
+            l1.next = mergeTwoListNode(l1.next, l2);
+            return l1;
+        } else {
+            l2.next = mergeTwoListNode(l1, l2.next);
+            return l2;
+        }
+    }
+
+    /**
+     * @date: 2020/5/12
+     * @param:
+     * @return:
+     * @exception:
+     * @description: 合并K个排序链表
+     */
+    public static ListNode mergeKLists2(ListNode[] lists) {
+        if (lists == null || lists.length == 0) return null;
+        // 1. 初始化小根堆
+        PriorityQueue<ListNode> queue = new PriorityQueue((Comparator<ListNode>) (o1, o2) -> (o1.val - o2.val));
+        for (int i = 0; i < lists.length; i++) {
+            if (lists[i] != null) queue.add(lists[i]);
+        }
+        // 2. 取出堆顶元素，并将堆顶元素的下一节点插入小根堆
+        ListNode res = new ListNode(0);
+        ListNode cur = res;
+        while (!queue.isEmpty()) {
+            ListNode top = queue.poll();
+            if (top.next != null) {
+                queue.add(top.next);
+            }
+            cur.next = top;
+            cur = cur.next;
+        }
+        return res.next;
+    }
+
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
+    }
+
+    /**
+     * @date: 2020/5/12
+     * @param:
+     * @return:
+     * @exception:
+     * @description: 二叉树的最近公共祖先
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || root == p || root == q)
+            return root;
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        if (left != null && right != null) {
+            return root;
+        }
+        return left != null ? left : right;
+    }
+
+    /**
+     * @date: 2020/5/12
+     * @param:
+     * @return:
+     * @exception:
+     * @description: 二叉树的锯齿形层次遍历
+     */
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> lists = new LinkedList<>();
+        if (root == null) {
+            return lists;
+        }
+        int flag = 0;
+        //0：从左向右，1：从右向左
+        List<Integer> layer = new LinkedList<>();
+        Deque<TreeNode> queue = new LinkedList<>();
+        Deque<TreeNode> nextQueue = new LinkedList<>();
+        queue.offerLast(root);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.pollLast();
+            layer.add(node.val);
+            if (flag == 0) {
+                if (node.left != null) {
+                    nextQueue.offerLast(node.left);
+                }
+                if (node.right != null) {
+                    nextQueue.offerLast(node.right);
+                }
+            } else {
+                if (node.right != null) {
+                    nextQueue.offerLast(node.right);
+                }
+                if (node.left != null) {
+                    nextQueue.offerLast(node.left);
+                }
+            }
+            if (queue.isEmpty()) {
+                Deque<TreeNode> temp = nextQueue;
+                nextQueue = queue;
+                queue = temp;
+                flag = 1 - flag;
+                lists.add(layer);
+                layer = new LinkedList<>();
+            }
+        }
+        return lists;
+    }
+
+    /**
+     * @date: 2020/5/12
+     * @param:
+     * @return:
+     * @exception:
+     * @description: 最大正方形
+     */
+    public int maximalSquare(char[][] matrix) {
+        if (matrix.length == 0) {
+            return 0;
+        }
+        int max = 0, m = matrix.length, n = matrix[0].length;
+        int[][] dp = new int[m][n];
+        //先初始化 dp数组的第一列
+        for (int i = 0; i < m; i++) {
+            dp[i][0] = matrix[i][0] - '0';
+            max = Math.max(max, dp[i][0]);
+        }
+        //再初始化dp数组的第一行
+        for (int i = 0; i < n; i++) {
+            dp[0][i] = matrix[0][i] - '0';
+            max = Math.max(max, dp[0][i]);
+        }
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[i][j] = matrix[i][j] == '1' ? Math.min(dp[i - 1][j - 1], Math.min(dp[i][j - 1], dp[i - 1][j])) + 1 : 0;
+                max = Math.max(max, dp[i][j]);
+            }
+        }
+        return max * max;
+    }
+
+    /**
+     * @date: 2020/5/12
+     * @param:
+     * @return:
+     * @exception:
+     * @description: 三角形最小路径和（不能用贪心算法--存在后续有效性）
+     */
+    public int minimumTotalGreed(List<List<Integer>> triangle) {
+        int sum = triangle.get(0).get(0);
+        int m = 0, n = 0;
+        for (int i = 1; i < triangle.size(); i++) {
+            int bottom = triangle.get(m + 1).get(n);
+            int rightBottom = triangle.get(m + 1).get(n + 1);
+            if (bottom < rightBottom) {
+                sum += bottom;
+                m = m + 1;
+            } else {
+                sum += rightBottom;
+                m = m + 1;
+                n = n + 1;
+            }
+        }
+        return sum;
+    }
+
+    /**
+     * @date: 2020/5/12
+     * @param:
+     * @return:
+     * @exception:
+     * @description: 三角形最小路径和（dfs）
+     */
+    Integer memo[][];
+
+    public int minimumTotal(List<List<Integer>> triangle) {
+        if (triangle.size() == 0)
+            return 0;
+        memo = new Integer[triangle.size()][triangle.size()];
+        return dfs(triangle, 0, 0);
+
+    }
+
+    private int dfs(List<List<Integer>> triangle, int level, int idx) {
+        if (level == triangle.size())
+            return 0;
+        if (memo[level][idx] != null)
+            return memo[level][idx];
+        int left = dfs(triangle, level + 1, idx);
+        int right = dfs(triangle, level + 1, idx + 1);
+        memo[level][idx] = triangle.get(level).get(idx) + Math.min(left, right);
+        return triangle.get(level).get(idx) + Math.min(left, right);
+    }
+
+    static int[] a = {2, 1, 3};
 
     public static void main(String[] args) throws Exception {
+
+        ListNode l1 = new ListNode(1);
+        ListNode l2 = new ListNode(4);
+        ListNode l3 = new ListNode(5);
+        ListNode l4 = new ListNode(1);
+        ListNode l5 = new ListNode(3);
+        ListNode l6 = new ListNode(4);
+        ListNode l7 = new ListNode(2);
+        ListNode l8 = new ListNode(6);
+        //1->4->5
+        l1.next = l2;
+        l2.next = l3;
+        //1->3->4
+        l4.next = l5;
+        l5.next = l6;
+        //2->6
+        l7.next = l8;
+        ListNode[] nodeArr = {l1, l4, l7};
+        ListNode listNode = mergeKLists2(nodeArr);
+
+        //System.out.println(trap6(a));
 
         //System.out.println(longestConsecutive(a));
 
