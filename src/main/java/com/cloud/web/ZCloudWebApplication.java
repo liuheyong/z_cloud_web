@@ -16,11 +16,13 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.session.data.redis.RedisFlushMode;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableAspectJAutoProxy
-//@EnableAsync(proxyTargetClass = true)
+@EnableAsync(proxyTargetClass = true)
 @EnableDubbo
 @SpringBootApplication
+//@EnableTransactionManagement
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 @EnableRedisHttpSession(maxInactiveIntervalInSeconds= 60, redisFlushMode = RedisFlushMode.ON_SAVE, redisNamespace = "z_cloud_web")
 public class ZCloudWebApplication implements CommandLineRunner {

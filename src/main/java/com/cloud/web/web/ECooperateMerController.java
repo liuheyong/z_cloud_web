@@ -8,6 +8,7 @@ import com.cloud.commons.response.QueryECooperateMerResponse;
 import com.cloud.commons.response.Result;
 import com.cloud.commons.service.ECooperateMerService;
 import com.cloud.commons.utils.CloudUtils;
+import com.cloud.service.utils.UUIDUtil;
 import com.cloud.web.myannotation.AopTest;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.poi.hssf.usermodel.*;
@@ -58,10 +59,34 @@ public class ECooperateMerController extends DefaultController {
      * @return: com.cloud.commons.dto.ECooperateMer
      * @Description: 前置方法
      */
-    @ModelAttribute("eCooperateMer")
-    public ECooperateMer getECooperateMer() {
-        logger.info("前置方法 ================= @ModelAttribute");
-        return new ECooperateMer("E201902021245", "A201902021245", "测试分销商名称");
+    //@ModelAttribute("eCooperateMer")
+    //public ECooperateMer getECooperateMer() {
+    //    logger.info("前置方法 ================= @ModelAttribute");
+    //    return new ECooperateMer("E201902021245", "A201902021245", "测试分销商名称");
+    //}
+
+    /**
+     * @date: 2019/5/24
+     * @param: [eCooperateMer]
+     * @return: Result
+     * @description: 新增详情
+     */
+    @ResponseBody
+    @RequestMapping(value = Constants.CLOUD + "/addECooperateMerInfo")
+    public Result addECooperateMerInfo(ECooperateMer eCooperateMer) {
+        Result result = new Result();
+        Map<String, Object> model = new HashMap<String, Object>(4);
+        try {
+            ECooperateMer mer = new ECooperateMer(UUIDUtil.getUNIDX("EC", 30), "A2019022200000001", "测试数据添加", "1556442573307.jpg", "https://www.baidu.com", "1", 12);
+            eCooperateMerService.addECooperateMerInfo(mer);
+            result.setResultData(model);
+            result.setResultCode(Constants.RESULT_SUCCESS);
+        } catch (Exception e) {
+            logger.error("系统异常", e);
+            result.setResultCode(Constants.RESULT_FAIL);
+            result.setResultMessage("系统异常");
+        }
+        return result;
     }
 
     /**
@@ -323,7 +348,7 @@ public class ECooperateMerController extends DefaultController {
     }
 
     @ResponseBody
-    @RequestMapping(value = Constants.CLOUD + "/exportStringToTxt")
+    @RequestMapping(value = Constants.CLOUD + "/exportStringToTxt02")
     public void exportStringToTxt(HttpServletResponse response, String in) throws UnsupportedEncodingException {
         String fileName = "测试txt01";
         response.setContentType("text/plain");
