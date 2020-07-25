@@ -1,13 +1,13 @@
-package com.cloud.web.algorithm;
+package com.cloud.web.algorithm.test;
 
 /**
  * @author: wenyixicodedog
  * @create: 2020-06-30
  * @description:
  */
-public class MyCode {
+public class MyCodeTest {
 
-    public MyCode() {
+    public MyCodeTest() {
     }
 
     public static int getTotal(int n) {
