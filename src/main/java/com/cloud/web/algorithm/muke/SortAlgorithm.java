@@ -14,10 +14,10 @@ public class SortAlgorithm {
     public SortAlgorithm() {
     }
 
-    static int[] b = {11, 21, 32, 4, 534, 23, 87, 73, 111, 421, 21, 32, 4, 534, 23, 87, 73, 111, 421
+    static int[] B = {11, 21, 32, 4, 534, 23, 87, 73, 111, 421, 21, 32, 4, 534, 23, 87, 73, 111, 421
             , 21, 32, 4, 534, 23, 87, 73, 111, 421, 21, 32, 4, 534, 23, 87, 73, 111, 421
     };
-    static Integer[] aa = {133, 121, -12, 14, 534, -23, 87, -87, 81, 41};
+    static Integer[] A = {133, 121, -12, 14, 534, -23, 87, -87, 81, 41};
 
     /**
      * @Date: 2020-03-23
@@ -157,21 +157,119 @@ public class SortAlgorithm {
     }
 
     /**
+     * @Date: 2020-03-24
+     * @Description: 快速排序算法(随机选取一个数为基数 ， 比他大的总是在右边 ， 小的总是在左边)
+     * @Description: 时间复杂度为O(nlogn)
+     */
+    public static void quickSortRandom(int a[], int low, int high) {
+        if (low >= high) {
+            return;
+        }
+        int p = randomPartition(a, low, high);
+        quickSortRandom(a, low, p - 1);
+        quickSortRandom(a, p + 1, high);
+    }
+
+    public static int randomPartition(int[] a, int left, int right) {
+        int r = new Random().nextInt(right - left + 1) + left; //生成一个随机数，即是主元所在位置
+        swap(a, left, r); //将主元与序列最右边元素互换位置，这样就变成了之前快排的形式。
+        return partitionRandom(a, left, right); //直接调用之前的代码
+    }
+
+    public static int partitionRandom(int[] a, int low, int high) {
+        int i = low;
+        int j = high;
+        int base = a[low];
+        while (i != j) {
+            while (a[j] >= base && i < j) {
+                j--;
+            }
+            while (a[i] <= base && i < j) {
+                i++;
+            }
+            int temp = a[i];
+            a[i] = a[j];
+            a[j] = temp;
+        }
+        //将a[low] a[i]的值进行交换，因为a[i]始终是比base小的数的最右边的一个数
+        a[low] = a[i];
+        a[i] = base;
+        return i;
+    }
+
+    //交换数组a中的a[i]和a[j]
+    private static void swap(int[] a, int i, int j) {
+        int temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
+
+    //=================================快速排序 算法导论提供的方法=================================
+    /**
+     * @Date: 2020-03-28
+     * @Description: 快速排序01 算法导论提供的方法 -- 固定主元
+     */
+    public static void QuickSortEx(int[] a, int left, int right) {
+        if (left < right) {
+            int p = partitionEx(a, left, right);
+            QuickSortEx(a, left, p - 1);
+            QuickSortEx(a, p + 1, right);
+        }
+    }
+
+    //快速排序数组划分
+    private static int partitionEx(int[] a, int left, int right) {
+        int x = a[right];
+        int p = left - 1;
+        for (int i = left; i < right; i++) {
+            if (a[i] <= x) {
+                p++;
+                swap(a, p, i);
+            }
+        }
+        swap(a, p + 1, right);
+        return p + 1;
+    }
+
+    /**
+     * @Date: 2020-03-28
+     * @Description: 快速排序02 算法导论提供的方法 -- 随机化版本，除了调用划分函数不同，和之前快排的代码结构一模一样
+     */
+    public static void RandomQuickSortEx(int[] a, int left, int right) {
+        if (left < right) {
+            int p = randomPartitionEx(a, left, right);
+            RandomQuickSortEx(a, left, p - 1);
+            RandomQuickSortEx(a, p + 1, right);
+        }
+    }
+
+    //随机化划分
+    public static int randomPartitionEx(int[] a, int left, int right) {
+        int r = new Random().nextInt(right - left + 1) + left; //生成一个随机数，即是主元所在位置
+        swap(a, right, r); //将主元与序列最右边元素互换位置，这样就变成了之前快排的形式。
+        return partition(a, left, right); //直接调用之前的代码
+    }
+    //=================================快速排序 算法导论提供的方法=================================
+
+    /**
      * 最大子数组问题算法（蛮力法 O(n^3)）
      */
     private static void getSumOfSubArray01(int array[]) {
         int n = array.length;
-        int thisSum, maxSum = Integer.MIN_VALUE, k, i, j;
+        int cuSum, maxSum = Integer.MIN_VALUE, k, i, j;
         for (i = 0; i < n; i++) {
             for (j = i; j < n; j++) {
-                thisSum = 0;
+                cuSum = 0;
                 System.out.print("子数组有：");
-                for (k = i; k <= j; k++) { //k j分别为子数组的起止位置
-                    thisSum = thisSum + array[k];
-                    System.out.print(array[k] + " ");//输出所有的子数组是哪些
+                //k j分别为子数组的起止下标
+                for (k = i; k <= j; k++) {
+                    cuSum = cuSum + array[k];
+                    //枚举所有的子数组
+                    System.out.print(array[k] + " ");
                 }
-                if (thisSum > maxSum) {
-                    maxSum = thisSum;
+                System.out.println();
+                if (cuSum > maxSum) {
+                    maxSum = cuSum;
                 }
             }
         }
@@ -183,31 +281,19 @@ public class SortAlgorithm {
      */
     private static void getSumOfSubArray02(int array[]) {
         int n = array.length;
-        int thisSum, maxSum = Integer.MIN_VALUE, i, j;
+        int cuSum, maxSum = Integer.MIN_VALUE, i, j;
         for (i = 0; i < n; i++) {
             for (j = i; j < n; j++) {
-                thisSum = 0;
-                thisSum = thisSum + array[j];
-                if (thisSum > maxSum) {
-                    maxSum = thisSum;
+                cuSum = 0;
+                cuSum = cuSum + array[j];
+                if (cuSum > maxSum) {
+                    maxSum = cuSum;
                 }
             }
         }
         System.out.println("最大子数组之和为：" + maxSum);
     }
 
-    /**
-     * 利用动态规划解题：该方法时间复杂度为：o(n),但是额外使用了两个数组空间，其空间复杂度为：o(n)
-     * 解题思路：对于一个数组，求最大子数组之和，我们可以分为三部分：
-     * 我们以最后一个元素array[n-1]为例子：
-     * 1：array[n-1]自己构成最大的子数组
-     * 2：包含array[n-1]的最大子数组，即以array[n-1]结尾，我们用End[n-1]表示
-     * 3：不包含array[n-1]的最大子数组，那么求array[0]...array[n-1]的子数组，可以转化为求
-     * array[0]...array[n-2]的最大子数组
-     * <p>
-     * 由以上可知：All[n-1]=max{array[n-1],End[n-1],All[n-1]}
-     * All[n-1]表示为：array[0]...array[n-1]的最大子数组之和
-     */
     public static int max(int a, int b) {
         return a > b ? a : b;
     }
@@ -215,84 +301,6 @@ public class SortAlgorithm {
     public static int maxInThreeNum(int S_Left, int S_Right, int S_Cross_Left_Right) {
         return (S_Left > S_Right ? (S_Left > S_Cross_Left_Right ? S_Left : S_Cross_Left_Right) : (S_Right > S_Cross_Left_Right ?
                 S_Right : S_Cross_Left_Right));
-    }
-
-    private static void getSumOfSubArray03(int array[]) {
-        int n = array.length;
-        int End[] = new int[n];
-        int All[] = new int[n];
-        int Rec[] = new int[n];
-        //初始化:当数组中只有一个元素时
-        End[0] = All[0] = array[0];
-        End[n - 1] = All[n - 1] = array[n - 1];
-        for (int i = 1; i < n; i++) {
-            //Ent[i]是数组array[i]前i个数最大子数组之和
-            End[i] = max(End[i - 1] + array[i], array[i]);
-            if (End[i - 1] > 0) {
-                Rec[i] = Rec[i - 1];
-            } else if (End[i - 1] <= 0) {
-                Rec[i] = i;
-            }
-            //All[i]
-            All[i] = max(End[i], All[i - 1]);
-        }
-        System.out.println("方法三：最大子数组之和为：" + All[n - 1]);
-        System.out.println("End[]数组为：" + Arrays.toString(End));
-        System.out.println("All[]数组为：" + Arrays.toString(All));
-        System.out.println("Rec[]数组为：" + Arrays.toString(Rec));
-        getRec(Rec, End);
-    }
-
-    private static void getRec(int Rec[], int End[]) {
-        int S = End[End.length - 1];
-        int l = 0, r = 0;
-        for (int i = End.length - 1; i > 0; i--) {
-            if (S < End[i]) {
-                S = End[i];
-                r = i;
-                l = Rec[i];
-            }
-        }
-        System.out.println("左右下标为：" + l + "-" + r);
-    }
-
-    /**
-     * 优化的动态规划(舍弃All数组)
-     */
-    private static void getSumOfSubArray05(int array[]) {
-        int n = array.length;
-        int End[] = new int[n];
-        //初始化:当数组中只有一个元素时
-        End[0] = array[0];
-        End[n - 1] = array[n - 1];
-
-        for (int i = 1; i < n; i++) {
-            //Ent[i]是数组array[i]前i个数最大子数组之和
-            End[i] = max(End[i - 1] + array[i], array[i]);
-        }
-        //从Ent[i]中找到最大值
-        //for (int i = 1; i < n; i++) {
-        //    End[i] = max(End[i - 1], End[i]);
-        //}
-        //System.out.println("方法三：最大子数组之和为：" + End[n - 1]);
-        OptionalInt intOpt = Arrays.stream(End).max();
-        System.out.println("方法三：最大子数组之和为：" + intOpt.getAsInt());
-    }
-
-    /**
-     * 进一步优化的动态规划
-     * 为了进一步降低空间复杂度，我们可以定义两个变量用来保存方法三中的
-     * End[i-1]和All[i-1]
-     */
-    private static void getSumOfSubArray04(int array[]) {
-        int n = array.length;
-        int nEnd = array[0]; //前i个元素的最大子数组之和
-        int nAll = array[0];//包含最后一个元素的子数组之和(前i+1个元素的最大子数组之和)
-        for (int i = 1; i < n; i++) {
-            nEnd = max(nEnd + array[i], array[i]);
-            nAll = max(nEnd, nAll);
-        }
-        System.out.println("方法四：最大子数组之和为：" + nAll);
     }
 
     /**
@@ -387,6 +395,94 @@ public class SortAlgorithm {
             }
         }
         return Sub_Left_Sum + Sub_Right_Sum;
+    }
+
+    /**
+     * 利用动态规划解题：该方法时间复杂度为：o(n),但是额外使用了两个数组空间，其空间复杂度为：o(n)
+     * 解题思路：对于一个数组，求最大子数组之和，我们可以分为三部分：
+     * 我们以最后一个元素array[n-1]为例子：
+     * 1：array[n-1]自己构成最大的子数组
+     * 2：包含array[n-1]的最大子数组，即以array[n-1]结尾，我们用End[n-1]表示
+     * 3：不包含array[n-1]的最大子数组，那么求array[0]...array[n-1]的子数组，可以转化为求
+     * array[0]...array[n-2]的最大子数组
+     * <p>
+     * 由以上可知：All[n-1]=max{array[n-1],End[n-1],All[n-1]}
+     * All[n-1]表示为：array[0]...array[n-1]的最大子数组之和
+     */
+    private static void getSumOfSubArray03(int array[]) {
+        int n = array.length;
+        int End[] = new int[n];
+        int All[] = new int[n];
+        int Rec[] = new int[n];
+        //初始化:当数组中只有一个元素时
+        End[0] = All[0] = array[0];
+        End[n - 1] = All[n - 1] = array[n - 1];
+        for (int i = 1; i < n; i++) {
+            End[i] = max(End[i - 1] + array[i], array[i]);
+            if (End[i - 1] > 0) {
+                Rec[i] = Rec[i - 1];
+            } else if (End[i - 1] <= 0) {
+                Rec[i] = i;
+            }
+            //All[i]
+            All[i] = max(End[i], All[i - 1]);
+        }
+        System.out.println("方法三：最大子数组之和为：" + All[n - 1]);
+        System.out.println("End[]数组为：" + Arrays.toString(End));
+        System.out.println("All[]数组为：" + Arrays.toString(All));
+        System.out.println("Rec[]数组为：" + Arrays.toString(Rec));
+        getRec(Rec, End);
+    }
+
+    private static void getRec(int Rec[], int End[]) {
+        int S = End[End.length - 1];
+        int l = 0, r = 0;
+        for (int i = End.length - 1; i > 0; i--) {
+            if (S < End[i]) {
+                S = End[i];
+                r = i;
+                l = Rec[i];
+            }
+        }
+        System.out.println("左右下标为：" + l + "-" + r);
+    }
+
+    /**
+     * 优化的动态规划(舍弃All数组)
+     */
+    private static void getSumOfSubArray05(int array[]) {
+        int n = array.length;
+        int End[] = new int[n];
+        //初始化:当数组中只有一个元素时
+        End[0] = array[0];
+        End[n - 1] = array[n - 1];
+
+        for (int i = 1; i < n; i++) {
+            End[i] = max(End[i - 1] + array[i], array[i]);
+        }
+        //从Ent[i]中找到最大值
+        //for (int i = 1; i < n; i++) {
+        //    End[i] = max(End[i - 1], End[i]);
+        //}
+        //System.out.println("方法三：最大子数组之和为：" + End[n - 1]);
+        OptionalInt intOpt = Arrays.stream(End).max();
+        System.out.println("方法三：最大子数组之和为：" + intOpt.getAsInt());
+    }
+
+    /**
+     * 进一步优化的动态规划
+     * 为了进一步降低空间复杂度，我们可以定义两个变量用来保存方法三中的
+     * End[i-1]和All[i-1]
+     */
+    private static void getSumOfSubArray04(int array[]) {
+        int n = array.length;
+        int nEnd = array[0]; //前i个元素的最大子数组之和
+        int nAll = array[0];//包含最后一个元素的子数组之和(前i+1个元素的最大子数组之和)
+        for (int i = 1; i < n; i++) {
+            nEnd = max(nEnd + array[i], array[i]);
+            nAll = max(nEnd, nAll);
+        }
+        System.out.println("方法四：最大子数组之和为：" + nAll);
     }
 
     /**
@@ -488,99 +584,6 @@ public class SortAlgorithm {
     }
 
     /**
-     * @Date: 2020-03-24
-     * @Description: 快速排序算法(随机选取一个数为基数 ， 比他大的总是在右边 ， 小的总是在左边)
-     * @Description: 时间复杂度为O(nlogn)
-     */
-    public static void quickSortRandom(int a[], int low, int high) {
-        if (low >= high) {
-            return;
-        }
-        int p = randomPartition(a, low, high);
-        quickSortRandom(a, low, p - 1);
-        quickSortRandom(a, p + 1, high);
-    }
-
-    public static int randomPartition(int[] a, int left, int right) {
-        int r = new Random().nextInt(right - left + 1) + left; //生成一个随机数，即是主元所在位置
-        swap(a, left, r); //将主元与序列最右边元素互换位置，这样就变成了之前快排的形式。
-        return partitionRandom(a, left, right); //直接调用之前的代码
-    }
-
-    public static int partitionRandom(int[] a, int low, int high) {
-        int i = low;
-        int j = high;
-        int base = a[low];
-        while (i != j) {
-            while (a[j] >= base && i < j) {
-                j--;
-            }
-            while (a[i] <= base && i < j) {
-                i++;
-            }
-            int temp = a[i];
-            a[i] = a[j];
-            a[j] = temp;
-        }
-        //将a[low] a[i]的值进行交换，因为a[i]始终是比base小的数的最右边的一个数
-        a[low] = a[i];
-        a[i] = base;
-        return i;
-    }
-
-    //交换数组a中的a[i]和a[j]
-    private static void swap(int[] a, int i, int j) {
-        int temp = a[i];
-        a[i] = a[j];
-        a[j] = temp;
-    }
-
-    /**
-     * @Date: 2020-03-28
-     * @Description: 快速排序01 算法导论提供的方法 -- 固定主元
-     */
-    public static void QuickSortEx(int[] a, int left, int right) {
-        if (left < right) {
-            int p = partitionEx(a, left, right);
-            QuickSortEx(a, left, p - 1);
-            QuickSortEx(a, p + 1, right);
-        }
-    }
-
-    //快速排序数组划分
-    private static int partitionEx(int[] a, int left, int right) {
-        int x = a[right];
-        int p = left - 1;
-        for (int i = left; i < right; i++) {
-            if (a[i] <= x) {
-                p++;
-                swap(a, p, i);
-            }
-        }
-        swap(a, p + 1, right);
-        return p + 1;
-    }
-
-    /**
-     * @Date: 2020-03-28
-     * @Description: 快速排序02 算法导论提供的方法 -- 随机化版本，除了调用划分函数不同，和之前快排的代码结构一模一样
-     */
-    public static void RandomQuickSortEx(int[] a, int left, int right) {
-        if (left < right) {
-            int p = randomPartitionEx(a, left, right);
-            RandomQuickSortEx(a, left, p - 1);
-            RandomQuickSortEx(a, p + 1, right);
-        }
-    }
-
-    //随机化划分
-    public static int randomPartitionEx(int[] a, int left, int right) {
-        int r = new Random().nextInt(right - left + 1) + left; //生成一个随机数，即是主元所在位置
-        swap(a, right, r); //将主元与序列最右边元素互换位置，这样就变成了之前快排的形式。
-        return partition(a, left, right); //直接调用之前的代码
-    }
-
-    /**
      * @Date: 2020-03-28
      * @Description: 次序选择问题 -- 找出第k小的元素（固定主元方式）
      */
@@ -618,9 +621,9 @@ public class SortAlgorithm {
         return element;
     }
 
-    static int[] a = {133, 121, -12, 14, 534, -23, 87, -87, 81, 41};
+    static int[] a = {13, 8, 10, 6, 15, 18, 12, 20, 9, 14, 17, 19};
+    static int[] aa = {1, -2, 4, 5, -2, 8, 3, -2, 6, 3, 7, -1};
     static int[] aaa = {13, 8, 10, 6, 15, 18, 12, 20, 9, 14, 17, 19};
-    static int[] a2 = {1, -2, 4, 5, -2, 8, 3, -2, 6, 3, 7, -1};
 
     public static void main(String[] args) {
 
