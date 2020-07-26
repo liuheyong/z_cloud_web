@@ -29,10 +29,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * @author: LiuHeYong
@@ -157,9 +155,31 @@ public class ECooperateMerController extends DefaultController {
             //for (int i = 0; i < Constants.NUMBER_100; i++) {
             //    executorService.submit(runnable);
             //}
-            RpcContext.getContext().setAttachment("myKey", "myValue");
-            QueryECooperateMerResponse response = eCooperateMerService.queryECooperateMerListPage(eCooperateMer);
-            model.put("eCooperateMerList", response.geteCooperateMerList());
+            //RpcContext.getContext().setAttachment("myKey", "myValue");
+
+            ArrayList<Object> list = new ArrayList<>();
+            int threadCount = 10;
+            final CountDownLatch latch = new CountDownLatch(threadCount);
+            for (int i = 0; i < threadCount; i++) {
+                new Thread(() -> {System.out.println("线程===" + Thread.currentThread().getId() + "===开始执行");
+                    try {
+                        QueryECooperateMerResponse response = eCooperateMerService.queryECooperateMerListPage(eCooperateMer);
+                        list.addAll(response.geteCooperateMerList());
+                        System.out.println("线程===" + Thread.currentThread().getId() + "===执行结束");
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        latch.countDown();
+                    }
+                }).start();
+            }
+            System.out.println("主线程" + Thread.currentThread().getName() + "等待子线程执行完成...");
+            latch.await();//阻塞当前线程，直到计数器的值为0
+            System.out.println("主线程" + Thread.currentThread().getName() + "开始执行...");
+
+            model.put("eCooperateMerList", list);
             //redisTemplate.opsForValue().set("eCooperateMerList", response.geteCooperateMerList());
             //单个对象
             //ECooperateMer mer = new ECooperateMer();
