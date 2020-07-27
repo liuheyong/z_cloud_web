@@ -1,4 +1,4 @@
-package com.cloud.web.concurrentprogrammer;
+package com.cloud.web.concurrentprogrammer.countdownlatch;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -36,6 +36,11 @@ public class TestCountDownLatch {
         }
         System.out.println("10个线程已经执行完毕，开始执行后续任务。");
         System.out.println("10个线程已经执行完毕，开始执行后续任务。");
+        //try {
+        //    latch.await();
+        //} catch (InterruptedException e) {
+        //    e.printStackTrace();
+        //}
         System.out.println("10个线程已经执行完毕，开始执行后续任务。");
     }
 }

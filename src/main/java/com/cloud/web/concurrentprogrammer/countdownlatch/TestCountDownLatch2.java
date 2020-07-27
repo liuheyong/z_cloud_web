@@ -1,4 +1,4 @@
-package com.cloud.web.concurrentprogrammer;
+package com.cloud.web.concurrentprogrammer.countdownlatch;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
