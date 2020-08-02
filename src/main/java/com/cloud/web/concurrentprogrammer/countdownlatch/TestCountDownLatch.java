@@ -15,11 +15,12 @@ public class TestCountDownLatch {
 
     public static void testCountDownLatch() {
         int threadCount = 10;
-        final CountDownLatch latch = new CountDownLatch(threadCount);
+        CountDownLatch latch = new CountDownLatch(threadCount);
         for (int i = 0; i < threadCount; i++) {
             new Thread(() -> {
                 System.out.println("线程===" + Thread.currentThread().getId() + "===开始执行");
                 try {
+                    latch.countDown();
                     Thread.sleep(1000);
                     System.out.println("线程===" + Thread.currentThread().getId() + "===执行结束");
                 } catch (InterruptedException e) {

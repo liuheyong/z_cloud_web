@@ -71,12 +71,21 @@ public class ECooperateMerController extends DefaultController {
      */
     @ResponseBody
     @RequestMapping(value = Constants.CLOUD + "/addECooperateMerInfo")
-    public Result addECooperateMerInfo(ECooperateMer eCooperateMer) {
+    public Result addECooperateMerInfo() {
         Result result = new Result();
         Map<String, Object> model = new HashMap<String, Object>(4);
         try {
             ECooperateMer mer = new ECooperateMer(UUIDUtil.getUNIDX("EC", 30), "A2019022200000001", "测试数据添加", "1556442573307.jpg", "https://www.baidu.com", "1", 12);
-            eCooperateMerService.addECooperateMerInfo(mer);
+            for (int i = 0; i < 100; i++) {
+                fixedThreadPool().execute(()->{
+                    try {
+                        eCooperateMerService.addECooperateMerInfo(mer);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+
+            }
             result.setResultData(model);
             result.setResultCode(Constants.RESULT_SUCCESS);
         } catch (Exception e) {
