@@ -112,11 +112,11 @@ public class DefaultController implements Cloneable, Serializable {
     * @Description:  定长线程池
     */
     public static ThreadPoolExecutor fixedThreadPool() {
-        int corePool = Runtime.getRuntime().availableProcessors();
-        System.out.println(corePool);
-        return new ThreadPoolExecutor(corePool,
-                corePool * 2,
-                0L,
+        int corePoolThreads = Runtime.getRuntime().availableProcessors();
+        //System.out.println(corePoolThreads);
+        return new ThreadPoolExecutor(corePoolThreads,
+                corePoolThreads * 2,
+                2L,
                 TimeUnit.SECONDS,
                 new SynchronousQueue<>());
     }

@@ -76,7 +76,7 @@ public class ECooperateMerController extends DefaultController {
         Map<String, Object> model = new HashMap<String, Object>(4);
         try {
             ECooperateMer mer = new ECooperateMer(UUIDUtil.getUNIDX("EC", 30), "A2019022200000001", "测试数据添加", "1556442573307.jpg", "https://www.baidu.com", "1", 12);
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 1; i++) {
                 fixedThreadPool().execute(()->{
                     try {
                         eCooperateMerService.addECooperateMerInfo(mer);
