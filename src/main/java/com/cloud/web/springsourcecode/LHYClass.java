@@ -1,4 +1,4 @@
-package com.cloud.web.sourcecode;
+package com.cloud.web.springsourcecode;
 
 import com.cloud.web.web.DefaultController;
 import org.springframework.beans.factory.InitializingBean;

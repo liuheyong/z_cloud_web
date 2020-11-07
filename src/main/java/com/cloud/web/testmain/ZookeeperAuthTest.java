@@ -1,4 +1,4 @@
-package com.cloud.web.test;
+package com.cloud.web.testmain;
 
 import org.I0Itec.zkclient.ZkClient;
 import org.apache.zookeeper.ZooDefs;
