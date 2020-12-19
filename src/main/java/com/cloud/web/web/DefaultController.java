@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
-import java.util.concurrent.*;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author: LiuHeYong
@@ -97,20 +99,22 @@ public class DefaultController implements Cloneable, Serializable {
     public static class ListNode {
         public int val;
         public ListNode next;
+
         public ListNode() {
         }
+
         public ListNode(int x) {
             val = x;
         }
     }
 
     /**
-    * @Author: wenyixicodedog
-    * @Date:  2020-08-01
-    * @Param:
-    * @return:
-    * @Description:  定长线程池
-    */
+     * @Author: wenyixicodedog
+     * @Date: 2020-08-01
+     * @Param:
+     * @return:
+     * @Description: 定长线程池
+     */
     public static ThreadPoolExecutor fixedThreadPool() {
         int corePoolThreads = Runtime.getRuntime().availableProcessors();
         //System.out.println(corePoolThreads);

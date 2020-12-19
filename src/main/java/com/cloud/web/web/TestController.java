@@ -1,6 +1,7 @@
 package com.cloud.web.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Ordered;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,11 +13,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @create: 2019-08-31
  * @description:
  */
-@Controller
-public class TestController {
+@Controller("testController")
+//@Order(2)
+public class TestController extends DefaultController implements Ordered {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
+    public TestController() {
+        System.out.println("TestController");
+    }
 
     /**
      * @Date: 2019-08-31
@@ -62,4 +68,8 @@ public class TestController {
         return (String) redisTemplate.opsForValue().get("test");
     }
 
+    @Override
+    public int getOrder() {
+        return Integer.MIN_VALUE;
+    }
 }

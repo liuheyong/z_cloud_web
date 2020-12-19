@@ -14,11 +14,16 @@ import java.util.Optional;
  * @create: 2019-06-20
  * @description:
  **/
-@RestController
-public class GoodsController {
+@RestController("goodsController")
+//@Order(3)
+public class GoodsController extends DefaultController {
 
     @Autowired
     GoodsRepository goodsRepository;
+
+    public GoodsController() {
+        System.out.println("GoodsController");
+    }
 
     @GetMapping(Constants.CLOUD + "save")
     public String save() {

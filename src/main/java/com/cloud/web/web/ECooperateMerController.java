@@ -1,7 +1,6 @@
 package com.cloud.web.web;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.alibaba.dubbo.rpc.RpcContext;
 import com.cloud.commons.constants.Constants;
 import com.cloud.commons.dto.ECooperateMer;
 import com.cloud.commons.response.QueryECooperateMerResponse;
@@ -37,10 +36,15 @@ import java.util.concurrent.CountDownLatch;
  * @create: 2019-05-22
  * @description: ECooperateMerController
  **/
-@Controller
+@Controller("eCooperateMerController")
+//@Order(1)
 public class ECooperateMerController extends DefaultController {
 
     public static final Logger logger = LoggerFactory.getLogger(ECooperateMerController.class);
+
+    public ECooperateMerController() {
+        System.out.println("ECooperateMerController");
+    }
 
     @Reference(check = false, version = "${dubbo.service.version}", timeout = 60000)
     private ECooperateMerService eCooperateMerService;
@@ -75,9 +79,10 @@ public class ECooperateMerController extends DefaultController {
         Result result = new Result();
         Map<String, Object> model = new HashMap<String, Object>(4);
         try {
-            ECooperateMer mer = new ECooperateMer(UUIDUtil.getUNIDX("EC", 30), "A2019022200000001", "测试数据添加", "1556442573307.jpg", "https://www.baidu.com", "1", 12);
+            ECooperateMer mer = new ECooperateMer(UUIDUtil.getUNIDX("EC", 30), "A2019022200000001", "测试数据添加", "1556442573307.jpg"
+                    , "https://www.baidu.com", "1", 12);
             for (int i = 0; i < 1; i++) {
-                fixedThreadPool().execute(()->{
+                fixedThreadPool().execute(() -> {
                     try {
                         eCooperateMerService.addECooperateMerInfo(mer);
                     } catch (Exception e) {
@@ -170,7 +175,8 @@ public class ECooperateMerController extends DefaultController {
             int threadCount = 10;
             final CountDownLatch latch = new CountDownLatch(threadCount);
             for (int i = 0; i < threadCount; i++) {
-                new Thread(() -> {System.out.println("线程===" + Thread.currentThread().getId() + "===开始执行");
+                new Thread(() -> {
+                    System.out.println("线程===" + Thread.currentThread().getId() + "===开始执行");
                     try {
                         QueryECooperateMerResponse response = eCooperateMerService.queryECooperateMerListPage(eCooperateMer);
                         list.addAll(response.geteCooperateMerList());

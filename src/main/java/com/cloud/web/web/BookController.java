@@ -6,6 +6,7 @@ import com.cloud.web.myannotation.CacheLock;
 import com.cloud.web.myannotation.CacheParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,9 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
  * @description: BookController
  **/
 @RestController
-public class BookController {
+//@Order(4)
+@DependsOn({"eCooperateMerController", "testController", "goodsController"})
+public class BookController extends DefaultController {
 
     public static final Logger logger = LoggerFactory.getLogger(BookController.class);
+
+    public BookController() {
+        System.out.println("BookController");
+    }
 
     //@LocalLock(key = "book:arg[0]")
     @GetMapping(value = Constants.CLOUD + "/books")
