@@ -18,8 +18,7 @@ import org.springframework.session.data.redis.RedisFlushMode;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@EnableAspectJAutoProxy
-@EnableAsync(proxyTargetClass = true)
+@EnableAspectJAutoProxy(proxyTargetClass = false)
 @EnableDubbo
 @SpringBootApplication
 //@EnableTransactionManagement
