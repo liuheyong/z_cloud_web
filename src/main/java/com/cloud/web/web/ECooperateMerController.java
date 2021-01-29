@@ -79,8 +79,14 @@ public class ECooperateMerController extends DefaultController {
         Result result = new Result();
         Map<String, Object> model = new HashMap<String, Object>(4);
         try {
-            ECooperateMer mer = new ECooperateMer(UUIDUtil.getUNIDX("EC", 30), "A2019022200000001", "测试数据添加", "1556442573307.jpg"
-                    , "https://www.baidu.com", "1", 12);
+            ECooperateMer mer = new ECooperateMer(
+                    UUIDUtil.getUNIDX("EC", 30),
+                    "A2019022200000001",
+                    "测试数据添加",
+                    "1556442573307.jpg",
+                    "https://www.baidu.com",
+                    "1",
+                    12);
             for (int i = 0; i < 1; i++) {
                 fixedThreadPool().execute(() -> {
                     try {
@@ -113,8 +119,7 @@ public class ECooperateMerController extends DefaultController {
         Result result = new Result();
         Map<String, Object> model = new HashMap<String, Object>(4);
         try {
-            Optional<ECooperateMer> optDto =
-                    Optional.ofNullable(eCooperateMerService.queryECooperateMerInfo(eCooperateMer));
+            Optional<ECooperateMer> optDto = Optional.ofNullable(eCooperateMerService.queryECooperateMerInfo(eCooperateMer));
             if (optDto.isPresent()) {
                 model.put("eCooperateMer", optDto.get());
                 result.setResultData(model);
@@ -138,9 +143,8 @@ public class ECooperateMerController extends DefaultController {
      * @description: 创建线程查询列表
      */
     @AopTest
-    @RequestMapping(value = Constants.CLOUD + "/queryECooperateMerListPage", method = {RequestMethod.POST,
-            RequestMethod.GET})
-    public String queryECooperateMerListPage(@ModelAttribute ECooperateMer eCooperateMer, ModelMap model) throws InterruptedException {
+    @RequestMapping(value = Constants.CLOUD + "/queryECooperateMerListPage", method = {RequestMethod.POST, RequestMethod.GET})
+    public String queryECooperateMerListPage(@ModelAttribute ECooperateMer eCooperateMer, ModelMap model) {
         //String sessionID = request.getSession(false).getId();
         //request.getSession().setMaxInactiveInterval(1000 * 60 * 30);
         //logger.info("=================sessionID:" + sessionID + "====================");
@@ -171,30 +175,30 @@ public class ECooperateMerController extends DefaultController {
             //}
             //RpcContext.getContext().setAttachment("myKey", "myValue");
 
-            ArrayList<Object> list = new ArrayList<>();
-            int threadCount = 10;
-            final CountDownLatch latch = new CountDownLatch(threadCount);
-            for (int i = 0; i < threadCount; i++) {
-                new Thread(() -> {
-                    System.out.println("线程===" + Thread.currentThread().getId() + "===开始执行");
-                    try {
+            //ArrayList<Object> list = new ArrayList<>();
+            //int threadCount = 10;
+            //final CountDownLatch latch = new CountDownLatch(threadCount);
+            //for (int i = 0; i < threadCount; i++) {
+            //    new Thread(() -> {
+            //        System.out.println("线程===" + Thread.currentThread().getId() + "===开始执行");
+            //        try {
                         QueryECooperateMerResponse response = eCooperateMerService.queryECooperateMerListPage(eCooperateMer);
-                        list.addAll(response.geteCooperateMerList());
-                        System.out.println("线程===" + Thread.currentThread().getId() + "===执行结束");
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    } finally {
-                        latch.countDown();
-                    }
-                }).start();
-            }
+            //            list.addAll(response.geteCooperateMerList());
+            //            System.out.println("线程===" + Thread.currentThread().getId() + "===执行结束");
+            //        } catch (InterruptedException e) {
+            //            e.printStackTrace();
+            //        } catch (Exception e) {
+            //            e.printStackTrace();
+            //        } finally {
+            //            latch.countDown();
+            //        }
+            //    }).start();
+            //}
             System.out.println("主线程" + Thread.currentThread().getName() + "等待子线程执行完成...");
-            latch.await();//阻塞当前线程，直到计数器的值为0
+            //latch.await();//阻塞当前线程，直到计数器的值为0
             System.out.println("主线程" + Thread.currentThread().getName() + "开始执行...");
 
-            model.put("eCooperateMerList", list);
+            //model.put("eCooperateMerList", list);
             //redisTemplate.opsForValue().set("eCooperateMerList", response.geteCooperateMerList());
             //单个对象
             //ECooperateMer mer = new ECooperateMer();
