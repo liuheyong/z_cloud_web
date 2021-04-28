@@ -5,14 +5,14 @@
     <parent>
         <groupId>com.cloud.parent</groupId>
         <artifactId>z_cloud_parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>${z_cloud.version}</version>
         <relativePath>../z_cloud_parent/pom.xml</relativePath>
     </parent>
 
     <groupId>com.cloud.web</groupId>
     <artifactId>z_cloud_web</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <version>${z_cloud.version}</version>
+    <packaging>jar</packaging>
     <name>z_cloud_web</name>
     <description>project for Spring Cloud</description>
 
@@ -79,7 +79,7 @@
         <dependency>
             <groupId>com.cloud.service</groupId>
             <artifactId>z_cloud_service</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>${z_cloud.version}</version>
         </dependency>
         <!--引入thymeleaf的依赖-->
         <dependency>
@@ -89,12 +89,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <!--z_cloud_commons-->
-        <dependency>
-            <groupId>com.cloud.com.alibabacloud.commons</groupId>
-            <artifactId>z_cloud_commons</artifactId>
-            <version>${z_cloud_commons-version}</version>
         </dependency>
         <!--引⼊dubbo依赖-->
         <dependency>
@@ -321,5 +315,4 @@
             </properties>
         </profile>
     </profiles>
-
 </project>
