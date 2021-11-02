@@ -5,9 +5,13 @@ package com.cloud.web.algorithm.test;
  * @create: 2020-06-30
  * @description:
  */
-public class MyCodeTest {
+public class CodeTest {
 
-    public MyCodeTest() {
+    public CodeTest() {
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getTotal(13));
     }
 
     public static int getTotal(int n) {
@@ -25,9 +29,4 @@ public class MyCodeTest {
         }
         return 0;
     }
-
-    public static void main(String[] args) {
-        System.out.println(getTotal(13));
-    }
-
 }
