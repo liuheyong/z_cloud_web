@@ -19,11 +19,11 @@ public class ThreadExecutorConfig {
     public static Executor asynServiceExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         //配置核心线程数
-        executor.setCorePoolSize(8);
+        executor.setCorePoolSize(Runtime.getRuntime().availableProcessors() * 50);
         //配置最大线程数
-        executor.setMaxPoolSize(30);
+        executor.setMaxPoolSize(Runtime.getRuntime().availableProcessors() * 300);
         //配置队列大小
-        executor.setQueueCapacity(1000);
+        executor.setQueueCapacity(20480);
         // 设置线程活跃时间(秒)
         executor.setKeepAliveSeconds(60);
         //设置默认线程名称前缀

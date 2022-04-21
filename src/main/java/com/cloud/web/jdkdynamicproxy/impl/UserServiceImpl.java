@@ -13,4 +13,9 @@ public class UserServiceImpl implements UserService {
         System.out.println("查询用户信息");
     }
 
+    @Override
+    public void query2() {
+        System.out.println("查询用户信息2");
+    }
+
 }
