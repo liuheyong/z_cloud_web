@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import javax.servlet.AsyncContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.Executor;
@@ -43,6 +46,30 @@ public class TestController extends DefaultController implements Ordered {
 
     public TestController() {
         System.out.println("TestController");
+    }
+
+    /**
+     * @Date: 2019-08-31
+     * @Param: []
+     * @return: java.lang.String
+     * @Description: 设置访问首页
+     */
+    @ResponseBody
+    @RequestMapping("test_asyn_context")
+    public String testAsynContext(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println(Thread.currentThread().getName());
+        AsyncContext asyncContext = request.startAsync(request, response);
+        asyncContext.setTimeout(0L);
+        asyncContext.start(() -> {
+            System.out.println(Thread.currentThread().getName());
+            try {
+                Thread.sleep(12000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            asyncContext.complete();
+        });
+        return "testAsynContext";
     }
 
     /**
