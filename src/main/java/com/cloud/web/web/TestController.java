@@ -2,6 +2,7 @@ package com.cloud.web.web;
 
 import cn.hutool.extra.spring.SpringUtil;
 import org.apache.tomcat.util.threads.ThreadPoolExecutor;
+import org.openjdk.jol.info.ClassLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.context.WebServerApplicationContext;
 import org.springframework.boot.web.embedded.tomcat.TomcatWebServer;
@@ -46,6 +47,11 @@ public class TestController extends DefaultController implements Ordered {
 
     public TestController() {
         System.out.println("TestController");
+    }
+
+    public static void main(String[] args) {
+        //打印出对象的内存布局
+        System.out.println(ClassLayout.parseInstance(new TestController()).toPrintable());
     }
 
     /**
