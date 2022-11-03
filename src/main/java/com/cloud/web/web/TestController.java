@@ -1,6 +1,6 @@
 package com.cloud.web.web;
 
-import cn.hutool.extra.spring.SpringUtil;
+import com.cloud.web.SpringBeanUtil;
 import org.apache.tomcat.util.threads.ThreadPoolExecutor;
 import org.openjdk.jol.info.ClassLayout;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -178,7 +178,7 @@ public class TestController extends DefaultController implements Ordered {
     @ResponseBody
     public Map<String, InnerExecutorBean> dtp() {
         Map<String, InnerExecutorBean> resultMap = new LinkedHashMap<>(8);
-        Map<String, Executor> serviceExecutorMap = SpringUtil.getBeansOfType(Executor.class);
+        Map<String, Executor> serviceExecutorMap = SpringBeanUtil.getApplicationContext().getBeansOfType(Executor.class);
         serviceExecutorMap.forEach((key, value) -> {
             //获取taskExecutor线程池
             if (value instanceof ThreadPoolTaskExecutor) {
